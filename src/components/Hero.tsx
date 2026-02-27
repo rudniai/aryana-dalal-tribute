@@ -31,8 +31,8 @@ export default function Hero() {
         style={{ y, opacity }}
         className="absolute inset-0 z-0"
       >
-        {/* REPLACE THIS URL with an actual Aryana photo */}
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=1920&h=1080&fit=crop')] bg-cover bg-center opacity-10" />
+        {/* Aryana's stunning photo as hero background */}
+        <div className="absolute inset-0 bg-[url('/images/aryana-9.jpg')] bg-cover bg-center opacity-10" />
         <div className="absolute inset-0 bg-gradient-to-b from-white via-transparent to-white" />
       </motion.div>
 

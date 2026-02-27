@@ -3,54 +3,57 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 
-// REPLACE THESE with actual Aryana photos from Instagram!
-// Download from: https://www.instagram.com/aryanadalal/
-// Save to /public/images/ and reference like: /images/aryana-mumbai.jpg
+// Aryana's actual stunning photos! 📸
 const photos = [
   {
-    url: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&h=800&fit=crop",
-    caption: "Slaying in Mumbai 💜",
+    url: "/images/aryana-1.jpg",
+    caption: "Cute selfie vibes 🤓💜",
     likes: "12.5K",
   },
   {
-    url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&h=600&fit=crop",
-    caption: "HST Show BTS 🎙️",
+    url: "/images/aryana-2.jpg",
+    caption: "Skincare routine essentials ✨",
     likes: "8.2K",
   },
   {
-    url: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&h=800&fit=crop",
-    caption: "Taste test queen 🍕",
+    url: "/images/aryana-3.jpg",
+    caption: "Outdoor moments 🌴",
     likes: "15.3K",
   },
   {
-    url: "https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=800&h=600&fit=crop",
-    caption: "GRWM vibes ✨",
+    url: "/images/aryana-4.jpg",
+    caption: "Flower power 🌸💕",
     likes: "11.7K",
   },
   {
-    url: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=600&h=800&fit=crop",
-    caption: "Formula 1 weekend 🏎️",
-    likes: "9.8K",
+    url: "/images/aryana-5.jpg",
+    caption: "Elegant evening look ✨",
+    likes: "18.2K",
   },
   {
-    url: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800&h=600&fit=crop",
-    caption: "Living my best life 🌟",
+    url: "/images/aryana-6.jpg",
+    caption: "Cozy home vibes 🏡",
     likes: "13.1K",
   },
   {
-    url: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=600&h=800&fit=crop",
-    caption: "Podcast life 🎧",
-    likes: "10.2K",
+    url: "/images/aryana-7.jpg",
+    caption: "Traditional glam 💫",
+    likes: "16.4K",
   },
   {
-    url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&h=800&fit=crop",
-    caption: "Fashion moments ✨",
+    url: "/images/aryana-8.jpg",
+    caption: "Floral dress season 🌺",
     likes: "14.6K",
   },
   {
-    url: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&h=600&fit=crop",
-    caption: "Weekend vibes 🌸",
-    likes: "9.5K",
+    url: "/images/aryana-9.jpg",
+    caption: "Monaco adventures 🇲🇨",
+    likes: "19.5K",
+  },
+  {
+    url: "/images/aryana-10.jpg",
+    caption: "Blue beauty 💙✨",
+    likes: "17.3K",
   },
 ];
 

@@ -3,48 +3,46 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
-// REPLACE THESE URLs with actual Aryana photos from her Instagram
-// Download from: https://www.instagram.com/aryanadalal/
-// Save to /public/images/ folder and reference like: /images/aryana-1.jpg
+// Actual Aryana photos floating with parallax effects!
 const images = [
   {
-    src: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=600&fit=crop",
-    alt: "Aryana - Replace with actual photo",
+    src: "/images/aryana-1.jpg",
+    alt: "Aryana",
     position: { top: "10%", left: "5%", rotate: -5 },
     size: "w-48 h-64",
     parallaxSpeed: 0.3,
   },
   {
-    src: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&h=600&fit=crop",
-    alt: "Aryana - Replace with actual photo",
+    src: "/images/aryana-3.jpg",
+    alt: "Aryana outdoors",
     position: { top: "25%", right: "8%", rotate: 8 },
     size: "w-56 h-72",
     parallaxSpeed: 0.5,
   },
   {
-    src: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&h=600&fit=crop",
-    alt: "Aryana - Replace with actual photo",
+    src: "/images/aryana-5.jpg",
+    alt: "Aryana elegant dress",
     position: { top: "45%", left: "3%", rotate: -3 },
     size: "w-40 h-56",
     parallaxSpeed: 0.4,
   },
   {
-    src: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&h=600&fit=crop",
-    alt: "Aryana - Replace with actual photo",
+    src: "/images/aryana-7.jpg",
+    alt: "Aryana traditional",
     position: { top: "60%", right: "5%", rotate: 5 },
     size: "w-52 h-68",
     parallaxSpeed: 0.6,
   },
   {
-    src: "https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=400&h=600&fit=crop",
-    alt: "Aryana - Replace with actual photo",
+    src: "/images/aryana-8.jpg",
+    alt: "Aryana floral dress",
     position: { top: "75%", left: "7%", rotate: -7 },
     size: "w-44 h-60",
     parallaxSpeed: 0.35,
   },
   {
-    src: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&h=600&fit=crop",
-    alt: "Aryana - Replace with actual photo",
+    src: "/images/aryana-10.jpg",
+    alt: "Aryana blue outfit",
     position: { top: "85%", right: "10%", rotate: 4 },
     size: "w-48 h-64",
     parallaxSpeed: 0.45,
