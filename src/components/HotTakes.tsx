@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Flame, ThumbsUp, ThumbsDown, AlertTriangle } from "lucide-react";
+import SectionImage from "./SectionImage";
 
 interface Take {
   take: string;
@@ -91,6 +92,15 @@ export default function HotTakes() {
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-orange-50/30 to-transparent" />
       <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-r from-pink-hot/5 via-orange-300/5 to-purple-mid/5 rounded-full blur-[100px]" />
+      
+      {/* Parallax Image */}
+      <SectionImage 
+        src="/images/cropped-aryana-3.jpg" 
+        alt="Aryana controversial moment" 
+        position="right"
+        size="w-64 h-80"
+        offset={-30}
+      />
 
       <div ref={ref} className="max-w-4xl mx-auto relative z-10">
         {/* Section header */}

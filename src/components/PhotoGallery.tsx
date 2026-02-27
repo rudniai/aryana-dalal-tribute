@@ -3,55 +3,55 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 
-// Aryana's actual stunning photos! 📸
+// Aryana's actual stunning photos - cropped to perfection! 📸
 const photos = [
   {
-    url: "/images/aryana-1.jpg",
+    url: "/images/cropped-aryana-1.jpg",
     caption: "Cute selfie vibes 🤓💜",
     likes: "12.5K",
   },
   {
-    url: "/images/aryana-2.jpg",
+    url: "/images/cropped-aryana-2.jpg",
     caption: "Skincare routine essentials ✨",
     likes: "8.2K",
   },
   {
-    url: "/images/aryana-3.jpg",
+    url: "/images/cropped-aryana-3.jpg",
     caption: "Outdoor moments 🌴",
     likes: "15.3K",
   },
   {
-    url: "/images/aryana-4.jpg",
+    url: "/images/cropped-aryana-4.jpg",
     caption: "Flower power 🌸💕",
     likes: "11.7K",
   },
   {
-    url: "/images/aryana-5.jpg",
+    url: "/images/cropped-aryana-5.jpg",
     caption: "Elegant evening look ✨",
     likes: "18.2K",
   },
   {
-    url: "/images/aryana-6.jpg",
+    url: "/images/cropped-aryana-6.jpg",
     caption: "Cozy home vibes 🏡",
     likes: "13.1K",
   },
   {
-    url: "/images/aryana-7.jpg",
+    url: "/images/cropped-aryana-7.jpg",
     caption: "Traditional glam 💫",
     likes: "16.4K",
   },
   {
-    url: "/images/aryana-8.jpg",
+    url: "/images/cropped-aryana-8.jpg",
     caption: "Floral dress season 🌺",
     likes: "14.6K",
   },
   {
-    url: "/images/aryana-9.jpg",
+    url: "/images/cropped-aryana-9.jpg",
     caption: "Monaco adventures 🇲🇨",
     likes: "19.5K",
   },
   {
-    url: "/images/aryana-10.jpg",
+    url: "/images/cropped-aryana-10.jpg",
     caption: "Blue beauty 💙✨",
     likes: "17.3K",
   },

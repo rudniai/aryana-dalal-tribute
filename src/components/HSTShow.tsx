@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Mic, Users, Headphones, ExternalLink, Zap } from "lucide-react";
+import SectionImage from "./SectionImage";
 
 const crewMembers = [
   {
@@ -102,6 +103,15 @@ export default function HSTShow() {
       <div className="absolute inset-0 bg-gradient-to-b from-purple-deep/[0.02] via-transparent to-pink-hot/[0.02]" />
       <div className="absolute top-40 right-0 w-[500px] h-[500px] bg-purple-mid/5 rounded-full blur-[150px]" />
       <div className="absolute bottom-40 left-0 w-[500px] h-[500px] bg-pink-hot/5 rounded-full blur-[150px]" />
+      
+      {/* Parallax Image */}
+      <SectionImage 
+        src="/images/cropped-aryana-7.jpg" 
+        alt="Aryana at HST Show" 
+        position="left"
+        size="w-64 h-80"
+        offset={50}
+      />
 
       <div ref={ref} className="max-w-6xl mx-auto relative z-10">
         {/* Section header */}

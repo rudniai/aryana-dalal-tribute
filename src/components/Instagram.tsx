@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Instagram as InstagramIcon, Heart, MessageCircle, ExternalLink } from "lucide-react";
+import SectionImage from "./SectionImage";
 
 const reelHighlights = [
   {
@@ -64,6 +65,15 @@ export default function Instagram() {
       id="instagram"
       className="relative py-32 px-6 overflow-hidden bg-gradient-to-b from-transparent via-purple-mid/[0.03] to-transparent"
     >
+      {/* Parallax Image */}
+      <SectionImage 
+        src="/images/cropped-aryana-4.jpg" 
+        alt="Aryana with flowers" 
+        position="left"
+        size="w-72 h-96"
+        offset={20}
+      />
+      
       <div ref={ref} className="max-w-6xl mx-auto relative z-10">
         {/* Section header */}
         <motion.div

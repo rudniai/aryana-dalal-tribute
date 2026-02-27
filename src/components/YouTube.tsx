@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Play, TrendingUp, Utensils, PartyPopper, ExternalLink } from "lucide-react";
+import SectionImage from "./SectionImage";
 
 const playlists = [
   {
@@ -79,6 +80,15 @@ export default function YouTube() {
       {/* Background */}
       <div className="absolute top-20 left-0 w-[600px] h-[600px] bg-pink-hot/5 rounded-full blur-[150px]" />
       <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-purple-mid/5 rounded-full blur-[120px]" />
+      
+      {/* Parallax Image */}
+      <SectionImage 
+        src="/images/cropped-aryana-6.jpg" 
+        alt="Aryana cozy" 
+        position="right"
+        size="w-64 h-80"
+        offset={-20}
+      />
 
       <div ref={ref} className="max-w-6xl mx-auto relative z-10">
         {/* Section header */}

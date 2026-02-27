@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { MapPin, Heart, Coffee, Sparkles } from "lucide-react";
+import SectionImage from "./SectionImage";
 
 const traits = [
   { icon: MapPin, label: "Mumbai, always", color: "text-pink-hot" },
@@ -20,8 +21,16 @@ export default function About() {
     <section id="about" className="relative py-32 px-6 overflow-hidden">
       {/* Background accent */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-purple-soft/10 rounded-full blur-[100px]" />
+      
+      {/* Parallax Image */}
+      <SectionImage 
+        src="/images/cropped-aryana-2.jpg" 
+        alt="Aryana" 
+        position="right"
+        size="w-72 h-96"
+      />
 
-      <div ref={ref} className="max-w-6xl mx-auto">
+      <div ref={ref} className="max-w-6xl mx-auto relative z-10">
         <div className="grid md:grid-cols-2 gap-16 items-center">
           {/* Left side - Profile visual */}
           <motion.div

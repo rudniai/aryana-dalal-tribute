@@ -8,14 +8,12 @@ import HSTShow from "@/components/HSTShow";
 import HotTakes from "@/components/HotTakes";
 import FanComments from "@/components/FanComments";
 import Footer from "@/components/Footer";
-import FloatingImages from "@/components/FloatingImages";
 
 export default function Home() {
   return (
     <>
-      <FloatingImages />
       <Navbar />
-      <main className="relative z-10">
+      <main className="relative">
         <Hero />
         <About />
         <PhotoGallery />
