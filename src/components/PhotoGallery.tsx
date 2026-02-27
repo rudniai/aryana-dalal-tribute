@@ -3,37 +3,54 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 
-// Placeholder images - these would be replaced with actual Aryana's photos
+// REPLACE THESE with actual Aryana photos from Instagram!
+// Download from: https://www.instagram.com/aryanadalal/
+// Save to /public/images/ and reference like: /images/aryana-mumbai.jpg
 const photos = [
   {
-    url: "https://picsum.photos/600/800?random=1",
+    url: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&h=800&fit=crop",
     caption: "Slaying in Mumbai 💜",
     likes: "12.5K",
   },
   {
-    url: "https://picsum.photos/800/600?random=2",
+    url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&h=600&fit=crop",
     caption: "HST Show BTS 🎙️",
     likes: "8.2K",
   },
   {
-    url: "https://picsum.photos/600/800?random=3",
+    url: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&h=800&fit=crop",
     caption: "Taste test queen 🍕",
     likes: "15.3K",
   },
   {
-    url: "https://picsum.photos/800/600?random=4",
+    url: "https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=800&h=600&fit=crop",
     caption: "GRWM vibes ✨",
     likes: "11.7K",
   },
   {
-    url: "https://picsum.photos/600/800?random=5",
+    url: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=600&h=800&fit=crop",
     caption: "Formula 1 weekend 🏎️",
     likes: "9.8K",
   },
   {
-    url: "https://picsum.photos/800/600?random=6",
+    url: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800&h=600&fit=crop",
     caption: "Living my best life 🌟",
     likes: "13.1K",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=600&h=800&fit=crop",
+    caption: "Podcast life 🎧",
+    likes: "10.2K",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&h=800&fit=crop",
+    caption: "Fashion moments ✨",
+    likes: "14.6K",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&h=600&fit=crop",
+    caption: "Weekend vibes 🌸",
+    likes: "9.5K",
   },
 ];
 

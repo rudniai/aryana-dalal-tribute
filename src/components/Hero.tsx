@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 const floatingEmojis = [
   { emoji: "🎙️", top: "15%", left: "8%", delay: 0, size: "text-4xl" },
@@ -14,8 +15,27 @@ const floatingEmojis = [
 ];
 
 export default function Hero() {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"]
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden noise-bg">
+    <section ref={containerRef} className="relative min-h-screen flex items-center justify-center overflow-hidden noise-bg">
+      {/* Parallax Background Image */}
+      <motion.div 
+        style={{ y, opacity }}
+        className="absolute inset-0 z-0"
+      >
+        {/* REPLACE THIS URL with an actual Aryana photo */}
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=1920&h=1080&fit=crop')] bg-cover bg-center opacity-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-transparent to-white" />
+      </motion.div>
+
       {/* Background gradient blobs */}
       <div className="absolute inset-0">
         <div className="absolute top-1/4 -left-32 w-[500px] h-[500px] bg-pink-hot/20 rounded-full blur-[120px] animate-blob" />
