@@ -56,10 +56,21 @@ const BAD_WORDS = [
   // English
   'fuck', 'shit', 'bitch', 'cunt', 'ass', 'asshole', 'dick', 'cock', 'pussy',
   'whore', 'slut', 'bastard', 'nigger', 'nigga', 'faggot', 'fag', 'retard',
-  // Hindi
-  'chutiya', 'bhenchod', 'bhosdike', 'madarchod', 'gaand', 'gandu',
-  'randi', 'lund', 'lauda', 'lavde', 'chut', 'saala', 'harami',
-  'kamina', 'kameena', 'kutti', 'kutta',
+  // Hindi (all spelling variations)
+  'chutiya', 'chutiye', 'chutia', 'chod', 'chodu',
+  'bhenchod', 'benchod', 'bc', 'bhosdike', 'bhosdiwale', 'bhosdi',
+  'madarchod', 'mc', 'maderchod',
+  'gaand', 'gand', 'gaand', 'gandu', 'ganду',
+  'randi', 'rand', 'randwa', 'randwe',
+  'lund', 'lodu', 'lode', 'laude', 'lauda', 'lavde', 'lavda', 'lawde', 'lawda',
+  'chut', 'choot',
+  'saala', 'saale', 'sala', 'sale',
+  'harami', 'haramkhor', 'haram',
+  'kamina', 'kameena', 'kameene', 'kamine',
+  'kutti', 'kutta', 'kutiya', 'kuttiya',
+  'jhatu', 'jhantu', 'ullu', 'gadha', 'bakchod', 'bakchodi',
+  'tatti', 'tatte', 'jhant', 'bsdk', 'bkl',
+  'marao', 'choos', 'chusamba',
   // Common evasions
   'stfu', 'gtfo', 'kys',
 ]

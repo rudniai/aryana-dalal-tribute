@@ -50,10 +50,19 @@ const SEVERE_PROFANITY = [
   'nigger', 'nigga', 'negro',
   'faggot', 'fag', 'faggy',
   'retard', 'retarded',
-  'chutiya', 'bhenchod', 'bhosdike', 'madarchod', 'gaand', 'gandu',
-  'randi', 'randi ka', 'lund', 'lauda', 'lavde', 'chut',
-  'saala', 'saali', 'harami', 'haramkhor', 'kutta', 'kutti',
-  'kamina', 'kameena', 'kameeni',
+  'chutiya', 'chutiye', 'chutia', 'chod', 'chodu',
+  'bhenchod', 'benchod', 'bc', 'bhosdike', 'bhosdiwale', 'bhosdi',
+  'madarchod', 'mc', 'maderchod',
+  'gaand', 'gand', 'gandu',
+  'randi', 'rand', 'randwa', 'randwe',
+  'lund', 'lodu', 'lode', 'laude', 'lauda', 'lavde', 'lavda', 'lawde', 'lawda',
+  'chut', 'choot',
+  'saala', 'saale', 'sala', 'sale', 'saali',
+  'harami', 'haramkhor', 'kutta', 'kutti', 'kutiya',
+  'kamina', 'kameena', 'kameeni', 'kameene', 'kamine',
+  'jhatu', 'jhantu', 'ullu', 'gadha', 'bakchod', 'bakchodi',
+  'tatti', 'tatte', 'jhant', 'bsdk', 'bkl',
+  'marao', 'choos', 'chusamba',
 ]
 
 // Insults and name-calling
