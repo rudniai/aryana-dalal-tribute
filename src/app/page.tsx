@@ -5,6 +5,8 @@ import YouTube from "@/components/YouTube";
 import HSTShow from "@/components/HSTShow";
 import ClayDate from "@/components/ClayDate";
 import ComplimentGenerator from "@/components/ComplimentGenerator";
+import PublicNotes from "@/components/PublicNotes";
+// import ComplimentChain from "@/components/ComplimentChain"; // Alternative option
 import Instagram from "@/components/Instagram";
 import FanComments from "@/components/FanComments";
 import Brands from "@/components/Brands";
@@ -24,6 +26,8 @@ export default function Home() {
         <HSTShow />
         <ClayDate />
         <ComplimentGenerator />
+        <PublicNotes />
+        {/* Can swap with <ComplimentChain /> for different vibe */}
         <Instagram />
         <FanComments />
         <Brands />
