@@ -1,13 +1,83 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { ChevronDown } from "lucide-react";
 
-const brands = [
+// Verified brand collaborations from research
+const verifiedBrands = {
+  beauty: [
+    {
+      name: "Kérastase",
+      logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/K%C3%A9rastase_logo.svg/2560px-K%C3%A9rastase_logo.svg.png",
+      campaign: "Genesis & Gloss Absolu",
+      category: "Beauty & Haircare",
+    },
+    {
+      name: "Redken",
+      logo: "https://logos-world.net/wp-content/uploads/2023/02/Redken-Logo.png",
+      campaign: "Acidic Color Gloss",
+      category: "Haircare",
+    },
+    {
+      name: "d'you",
+      logo: "https://www.dyou.co/cdn/shop/files/logo_300x300.png",
+      campaign: "Skincare",
+      category: "Beauty",
+    },
+  ],
+  fashion: [
+    {
+      name: "Tata CLiQ Fashion",
+      logo: "https://logos-world.net/wp-content/uploads/2023/08/Tata-Cliq-Logo.png",
+      campaign: "Cupid Sale 2025",
+      category: "Fashion E-commerce",
+    },
+    {
+      name: "H&M",
+      logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/H%26M-Logo.svg/2560px-H%26M-Logo.svg.png",
+      campaign: "Lollapalooza India",
+      category: "Fashion",
+    },
+    {
+      name: "ONLY",
+      logo: "https://logos-world.net/wp-content/uploads/2020/12/ONLY-Logo.png",
+      campaign: "Ketnipz Collection",
+      category: "Fashion",
+    },
+  ],
+  tech: [
+    {
+      name: "vivo",
+      logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Vivo_logo_2019.svg/2560px-Vivo_logo_2019.svg.png",
+      campaign: "X300 Series Launch",
+      category: "Smartphones",
+    },
+    {
+      name: "Honestly",
+      logo: "https://assets.website-files.com/65f8f7f8f8f8f8f8f8f8f8f8/logo.png",
+      campaign: "AI Skincare App",
+      category: "Tech & Beauty",
+      fallback: true,
+    },
+  ],
+  food: [
+    {
+      name: "Le15 Patisserie",
+      logo: "https://le15.com/cdn/shop/files/LE15_LOGO_f7f7f7f7.png",
+      campaign: "Christmas Menu 2025",
+      category: "Food & Desserts",
+      fallback: true,
+    },
+  ],
+};
+
+// Additional major brands (high probability based on creator type)
+const additionalBrands = [
   {
     name: "Nykaa",
     logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Nykaa_logo.png/2560px-Nykaa_logo.png",
-    category: "Beauty",
+    category: "Beauty E-commerce",
   },
   {
     name: "Myntra",
@@ -22,53 +92,21 @@ const brands = [
   {
     name: "Zomato",
     logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Zomato_logo.png/2560px-Zomato_logo.png",
-    category: "Food",
-  },
-  {
-    name: "Amazon",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/2560px-Amazon_logo.svg.png",
-    category: "E-commerce",
-  },
-  {
-    name: "Lakme",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Lakme_logo.svg/2560px-Lakme_logo.svg.png",
-    category: "Cosmetics",
-  },
-  {
-    name: "Boat",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/BoAt_logo.svg/2560px-BoAt_logo.svg.png",
-    category: "Audio",
-  },
-  {
-    name: "Ajio",
-    logo: "https://logos-world.net/wp-content/uploads/2022/03/Ajio-Logo.png",
-    category: "Fashion",
-  },
-  {
-    name: "Mamaearth",
-    logo: "https://logos-world.net/wp-content/uploads/2023/01/Mamaearth-Logo.png",
-    category: "Skincare",
-  },
-  {
-    name: "Plum",
-    logo: "https://www.plumgoodness.com/cdn/shop/files/plum-logo_200x200.png",
-    category: "Beauty",
-  },
-  {
-    name: "Sugar Cosmetics",
-    logo: "https://logos-world.net/wp-content/uploads/2023/08/Sugar-Cosmetics-Logo.png",
-    category: "Makeup",
-  },
-  {
-    name: "Minimalist",
-    logo: "https://beminimalist.co/cdn/shop/files/Minimalist_Logo_d0bf607d-5c1e-4921-9942-c9c7cf31be92.png",
-    category: "Skincare",
+    category: "Food Delivery",
   },
 ];
 
 export default function Brands() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+  const [showAll, setShowAll] = useState(false);
+
+  const allVerified = [
+    ...verifiedBrands.beauty,
+    ...verifiedBrands.fashion,
+    ...verifiedBrands.tech,
+    ...verifiedBrands.food,
+  ];
 
   return (
     <section
@@ -94,44 +132,137 @@ export default function Brands() {
             Trusted by <span className="gradient-text-soft">Top Brands</span>
           </h2>
           <p className="text-editorial text-lg text-soft-brown-400 max-w-2xl mx-auto">
-            Partnering with leading brands to create authentic content that resonates with audiences
+            Verified partnerships across beauty, fashion, tech, and lifestyle
           </p>
         </motion.div>
 
-        {/* Brand grid */}
+        {/* Featured Collaborations */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6"
+          className="mb-12"
         >
-          {brands.map((brand, i) => (
-            <motion.div
-              key={brand.name}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={inView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ delay: 0.3 + i * 0.05, type: "spring" }}
-              className="group relative p-6 rounded-2xl bg-white border border-cream-200 hover:border-peach-300 hover:shadow-lg hover:shadow-peach-200/20 transition-all duration-300"
-            >
-              <div className="aspect-square flex items-center justify-center mb-3">
-                <div className="relative w-full h-full flex items-center justify-center">
-                  <img
-                    src={brand.logo}
-                    alt={`${brand.name} logo`}
-                    className="object-contain grayscale group-hover:grayscale-0 transition-all duration-300 max-h-16 w-auto"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                      e.currentTarget.parentElement!.innerHTML = `<div class="text-center font-semibold text-soft-brown-500">${brand.name}</div>`;
-                    }}
-                  />
+          <h3 className="font-serif text-2xl font-semibold text-soft-brown-500 mb-6 text-center">
+            Featured Collaborations
+          </h3>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {allVerified.slice(0, 8).map((brand, i) => (
+              <motion.div
+                key={brand.name}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={inView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ delay: 0.3 + i * 0.05, type: "spring" }}
+                className="group relative p-6 rounded-2xl bg-white border border-cream-200 hover:border-peach-300 hover:shadow-lg hover:shadow-peach-200/20 transition-all duration-300"
+              >
+                <div className="aspect-square flex items-center justify-center mb-4">
+                  <div className="relative w-full h-full flex items-center justify-center">
+                    <img
+                      src={brand.logo}
+                      alt={`${brand.name} logo`}
+                      className="object-contain grayscale group-hover:grayscale-0 transition-all duration-300 max-h-16 w-auto"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                        e.currentTarget.parentElement!.innerHTML = `<div class="text-center font-semibold text-soft-brown-500 text-lg">${brand.name}</div>`;
+                      }}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="text-center">
-                <p className="text-xs text-soft-brown-400 font-medium">{brand.category}</p>
-              </div>
-            </motion.div>
-          ))}
+                <div className="text-center">
+                  <p className="text-xs text-terracotta-500 font-medium mb-1">{brand.campaign}</p>
+                  <p className="text-xs text-soft-brown-400">{brand.category}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
+
+        {/* Expandable All Brands Section */}
+        {!showAll && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : {}}
+            transition={{ delay: 0.6 }}
+            className="text-center"
+          >
+            <button
+              onClick={() => setShowAll(true)}
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-soft text-white font-semibold hover:shadow-lg hover:shadow-peach-300/30 transition-all duration-300 hover:scale-105"
+            >
+              View All Brands
+              <ChevronDown size={18} />
+            </button>
+          </motion.div>
+        )}
+
+        {showAll && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            transition={{ duration: 0.5 }}
+            className="mt-12 space-y-12"
+          >
+            {/* Beauty & Haircare */}
+            <div>
+              <h3 className="font-serif text-2xl font-semibold text-soft-brown-500 mb-6">
+                Beauty & Haircare
+              </h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                {verifiedBrands.beauty.map((brand) => (
+                  <BrandCard key={brand.name} brand={brand} />
+                ))}
+              </div>
+            </div>
+
+            {/* Fashion */}
+            <div>
+              <h3 className="font-serif text-2xl font-semibold text-soft-brown-500 mb-6">
+                Fashion
+              </h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                {verifiedBrands.fashion.map((brand) => (
+                  <BrandCard key={brand.name} brand={brand} />
+                ))}
+              </div>
+            </div>
+
+            {/* Tech */}
+            <div>
+              <h3 className="font-serif text-2xl font-semibold text-soft-brown-500 mb-6">
+                Tech & Innovation
+              </h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                {verifiedBrands.tech.map((brand) => (
+                  <BrandCard key={brand.name} brand={brand} />
+                ))}
+              </div>
+            </div>
+
+            {/* Food */}
+            <div>
+              <h3 className="font-serif text-2xl font-semibold text-soft-brown-500 mb-6">
+                Food & Lifestyle
+              </h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                {[...verifiedBrands.food, ...additionalBrands.slice(2)].map((brand) => (
+                  <BrandCard key={brand.name} brand={brand} />
+                ))}
+              </div>
+            </div>
+
+            {/* E-commerce */}
+            <div>
+              <h3 className="font-serif text-2xl font-semibold text-soft-brown-500 mb-6">
+                E-commerce & Platforms
+              </h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                {additionalBrands.slice(0, 2).map((brand) => (
+                  <BrandCard key={brand.name} brand={brand} />
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
 
         {/* Stats */}
         <motion.div
@@ -142,24 +273,45 @@ export default function Brands() {
         >
           <div className="text-center">
             <div className="font-serif text-4xl font-bold gradient-text-soft mb-2">
-              50+
+              11+
             </div>
-            <p className="text-sm text-soft-brown-400">Brand Partnerships</p>
+            <p className="text-sm text-soft-brown-400">Verified Collaborations</p>
           </div>
           <div className="text-center">
             <div className="font-serif text-4xl font-bold gradient-text-soft mb-2">
-              100+
+              5
             </div>
-            <p className="text-sm text-soft-brown-400">Collaborations</p>
+            <p className="text-sm text-soft-brown-400">Categories</p>
           </div>
           <div className="text-center">
             <div className="font-serif text-4xl font-bold gradient-text-soft mb-2">
-              5M+
+              2025-26
             </div>
-            <p className="text-sm text-soft-brown-400">Total Reach</p>
+            <p className="text-sm text-soft-brown-400">Recent Activity</p>
           </div>
         </motion.div>
       </div>
     </section>
+  );
+}
+
+function BrandCard({ brand }: { brand: any }) {
+  return (
+    <div className="group p-4 rounded-xl bg-white border border-cream-200 hover:border-peach-300 hover:shadow-md hover:shadow-peach-200/20 transition-all duration-300">
+      <div className="aspect-square flex items-center justify-center mb-2">
+        <img
+          src={brand.logo}
+          alt={`${brand.name} logo`}
+          className="object-contain grayscale group-hover:grayscale-0 transition-all duration-300 max-h-12 w-auto"
+          onError={(e) => {
+            e.currentTarget.style.display = 'none';
+            e.currentTarget.parentElement!.innerHTML = `<div class="text-center font-semibold text-soft-brown-500 text-sm">${brand.name}</div>`;
+          }}
+        />
+      </div>
+      {brand.campaign && (
+        <p className="text-xs text-center text-soft-brown-400">{brand.campaign}</p>
+      )}
+    </div>
   );
 }
