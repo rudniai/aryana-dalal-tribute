@@ -94,6 +94,21 @@ const additionalBrands = [
   },
 ];
 
+const staggerContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08 } },
+};
+
+const brandCardVariant = {
+  hidden: { opacity: 0, y: 30, scale: 0.9 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.5, type: "spring" as const, stiffness: 120, damping: 15 },
+  },
+};
+
 export default function Brands() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
@@ -115,6 +130,21 @@ export default function Brands() {
       <div className="absolute top-20 left-0 w-96 h-96 bg-peach-100 rounded-full blur-3xl opacity-40" />
       <div className="absolute bottom-20 right-0 w-96 h-96 bg-blush-100 rounded-full blur-3xl opacity-30" />
 
+      {/* Infinite marquee ticker */}
+      <div className="absolute top-16 left-0 right-0 overflow-hidden opacity-[0.06] pointer-events-none">
+        <motion.div
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="flex whitespace-nowrap"
+        >
+          {[...allVerified, ...allVerified].map((brand, i) => (
+            <span key={i} className="text-6xl font-bold mx-8 text-soft-brown-500">
+              {brand.name}
+            </span>
+          ))}
+        </motion.div>
+      </div>
+
       <div ref={ref} className="max-w-7xl mx-auto relative z-10">
         {/* Section header */}
         <motion.div
@@ -127,38 +157,45 @@ export default function Brands() {
             Brand Collaborations
           </p>
           <h2 className="text-headline text-5xl sm:text-6xl text-soft-brown-500 mb-6">
-            Trusted by <span className="gradient-text-soft">Top Brands</span>
+            Trusted by{" "}
+            <span className="bg-gradient-to-r from-peach-500 via-blush-500 to-terracotta-400 bg-clip-text text-transparent">
+              Top Brands
+            </span>
           </h2>
           <p className="text-editorial text-lg text-soft-brown-400 max-w-2xl mx-auto">
             Verified partnerships across beauty, fashion, tech, and lifestyle
           </p>
         </motion.div>
 
-        {/* Featured Collaborations */}
+        {/* Featured Collaborations - staggered grid */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mb-12"
         >
           <h3 className="font-serif text-2xl font-semibold text-soft-brown-500 mb-6 text-center">
             Featured Collaborations
           </h3>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {allVerified.slice(0, 8).map((brand, i) => (
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            animate={inView ? "visible" : "hidden"}
+            className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
+          >
+            {allVerified.slice(0, 8).map((brand) => (
               <motion.div
                 key={brand.name}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={inView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ delay: 0.3 + i * 0.05, type: "spring" }}
-                className="group relative p-6 rounded-2xl bg-white border border-cream-200 hover:border-peach-300 hover:shadow-lg hover:shadow-peach-200/20 transition-all duration-300"
+                variants={brandCardVariant}
+                whileHover={{ y: -6, transition: { duration: 0.2 } }}
+                className="group relative p-6 rounded-2xl bg-white/80 backdrop-blur-sm border border-cream-200 hover:border-peach-300 hover:shadow-xl hover:shadow-peach-200/20 transition-shadow duration-300"
               >
                 <div className="aspect-square flex items-center justify-center mb-4">
                   <div className="relative w-full h-full flex items-center justify-center">
                     <img
                       src={brand.logo}
                       alt={`${brand.name} logo`}
-                      className="object-contain grayscale group-hover:grayscale-0 transition-all duration-300 max-h-16 w-auto"
+                      className="object-contain grayscale group-hover:grayscale-0 transition-all duration-500 max-h-16 w-auto group-hover:scale-110"
                       onError={(e) => {
                         e.currentTarget.style.display = 'none';
                         e.currentTarget.parentElement!.innerHTML = `<div class="text-center font-semibold text-soft-brown-500 text-lg">${brand.name}</div>`;
@@ -172,7 +209,7 @@ export default function Brands() {
                 </div>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </motion.div>
 
         {/* Expandable All Brands Section */}
@@ -183,13 +220,15 @@ export default function Brands() {
             transition={{ delay: 0.6 }}
             className="text-center"
           >
-            <button
+            <motion.button
               onClick={() => setShowAll(true)}
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-soft text-white font-semibold hover:shadow-lg hover:shadow-peach-300/30 transition-all duration-300 hover:scale-105"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-soft text-white font-semibold hover:shadow-lg hover:shadow-peach-300/30 transition-all duration-300"
             >
               View All Brands
               <ChevronDown size={18} />
-            </button>
+            </motion.button>
           </motion.div>
         )}
 
@@ -262,45 +301,49 @@ export default function Brands() {
           </motion.div>
         )}
 
-        {/* Stats */}
+        {/* Stats with count-up feel */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.8 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.8, type: "spring" }}
           className="grid grid-cols-3 gap-8 mt-16 max-w-3xl mx-auto"
         >
-          <div className="text-center">
-            <div className="font-serif text-4xl font-bold gradient-text-soft mb-2">
-              11+
-            </div>
-            <p className="text-sm text-soft-brown-400">Verified Collaborations</p>
-          </div>
-          <div className="text-center">
-            <div className="font-serif text-4xl font-bold gradient-text-soft mb-2">
-              5
-            </div>
-            <p className="text-sm text-soft-brown-400">Categories</p>
-          </div>
-          <div className="text-center">
-            <div className="font-serif text-4xl font-bold gradient-text-soft mb-2">
-              2025-26
-            </div>
-            <p className="text-sm text-soft-brown-400">Recent Activity</p>
-          </div>
+          {[
+            { value: "11+", label: "Verified Collaborations" },
+            { value: "5", label: "Categories" },
+            { value: "2025-26", label: "Recent Activity" },
+          ].map((stat, i) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={inView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ delay: 0.9 + i * 0.1, type: "spring", stiffness: 150 }}
+              whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+              className="text-center"
+            >
+              <div className="font-serif text-4xl font-bold bg-gradient-to-r from-peach-500 to-terracotta-400 bg-clip-text text-transparent mb-2">
+                {stat.value}
+              </div>
+              <p className="text-sm text-soft-brown-400">{stat.label}</p>
+            </motion.div>
+          ))}
         </motion.div>
       </div>
     </section>
   );
 }
 
-function BrandCard({ brand }: { brand: any }) {
+function BrandCard({ brand }: { brand: { name: string; logo: string; campaign?: string; category?: string } }) {
   return (
-    <div className="group p-4 rounded-xl bg-white border border-cream-200 hover:border-peach-300 hover:shadow-md hover:shadow-peach-200/20 transition-all duration-300">
+    <motion.div
+      whileHover={{ y: -4, scale: 1.03, transition: { duration: 0.2 } }}
+      className="group p-4 rounded-xl bg-white/80 backdrop-blur-sm border border-cream-200 hover:border-peach-300 hover:shadow-lg hover:shadow-peach-200/20 transition-shadow duration-300"
+    >
       <div className="aspect-square flex items-center justify-center mb-2">
         <img
           src={brand.logo}
           alt={`${brand.name} logo`}
-          className="object-contain grayscale group-hover:grayscale-0 transition-all duration-300 max-h-12 w-auto"
+          className="object-contain grayscale group-hover:grayscale-0 transition-all duration-500 max-h-12 w-auto group-hover:scale-110"
           onError={(e) => {
             e.currentTarget.style.display = 'none';
             e.currentTarget.parentElement!.innerHTML = `<div class="text-center font-semibold text-soft-brown-500 text-sm">${brand.name}</div>`;
@@ -310,6 +353,6 @@ function BrandCard({ brand }: { brand: any }) {
       {brand.campaign && (
         <p className="text-xs text-center text-soft-brown-400">{brand.campaign}</p>
       )}
-    </div>
+    </motion.div>
   );
 }

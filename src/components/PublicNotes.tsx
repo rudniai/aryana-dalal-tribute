@@ -216,18 +216,24 @@ export default function PublicNotes() {
                 {messages.map((msg, index) => (
                   <motion.div
                     key={msg.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={inView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className={`relative bg-gradient-to-br ${noteColors[index % noteColors.length]} rounded-2xl p-6 shadow-md border-2 border-white/50 hover:shadow-lg hover:scale-[1.02] transition-all duration-300`}
+                    initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                    animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
+                    transition={{ duration: 0.5, delay: index * 0.08, type: "spring", stiffness: 100 }}
+                    whileHover={{ y: -4, scale: 1.03, transition: { duration: 0.2 } }}
+                    className={`relative bg-gradient-to-br ${noteColors[index % noteColors.length]} rounded-2xl p-6 shadow-md border-2 border-white/50 backdrop-blur-sm hover:shadow-xl hover:shadow-peach-200/30 transition-shadow duration-300`}
                   >
                     <div className="flex items-start gap-3">
-                      <Heart className="w-5 h-5 text-blush-400 flex-shrink-0 mt-1" fill="currentColor" />
+                      <motion.div
+                        animate={{ scale: [1, 1.15, 1] }}
+                        transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
+                      >
+                        <Heart className="w-5 h-5 text-blush-400 flex-shrink-0 mt-1" fill="currentColor" />
+                      </motion.div>
                       <p className="text-soft-brown-700 leading-relaxed flex-1">
                         {msg.message}
                       </p>
                     </div>
-                    
+
                     {/* Report button */}
                     <button
                       onClick={() => handleReport(msg.id)}
@@ -273,7 +279,7 @@ export default function PublicNotes() {
           transition={{ duration: 0.7, delay: 0.3 }}
           className="max-w-2xl mx-auto"
         >
-          <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 sm:p-12 border-2 border-peach-100 shadow-xl shadow-peach-200/20">
+          <div className="bg-white/70 backdrop-blur-md rounded-3xl p-8 sm:p-12 border-2 border-peach-100 shadow-2xl shadow-peach-200/30">
             <h3 className="text-3xl font-serif text-peach-600 mb-6 text-center">
               Add Your Note
             </h3>

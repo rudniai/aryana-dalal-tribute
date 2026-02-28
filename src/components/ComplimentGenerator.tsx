@@ -3,7 +3,6 @@
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
 import { Sparkles, Heart, RefreshCw } from "lucide-react";
-import Image from "next/image";
 
 const compliments = [
   {
@@ -101,12 +100,23 @@ export default function ComplimentGenerator() {
           transition={{ duration: 0.7 }}
           className="text-center mb-12"
         >
-          <p className="text-script text-2xl text-terracotta-400 mb-4 flex items-center justify-center gap-2">
-            <Sparkles size={20} />
+          <motion.p
+            className="text-script text-2xl text-terracotta-400 mb-4 flex items-center justify-center gap-2"
+            animate={inView ? { opacity: 1 } : {}}
+          >
+            <motion.span
+              animate={{ rotate: [0, 15, -15, 0], scale: [1, 1.2, 1] }}
+              transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
+            >
+              <Sparkles size={20} />
+            </motion.span>
             Interactive Fun
-          </p>
+          </motion.p>
           <h2 className="text-headline text-5xl sm:text-6xl text-soft-brown-500 mb-6">
-            Need a <span className="gradient-text-soft">Compliment?</span>
+            Need a{" "}
+            <span className="bg-gradient-to-r from-peach-500 via-blush-500 to-terracotta-400 bg-clip-text text-transparent">
+              Compliment?
+            </span>
           </h2>
           <p className="text-editorial text-lg text-soft-brown-400 max-w-2xl mx-auto">
             Click the button for some Aryana-approved good vibes
@@ -117,59 +127,84 @@ export default function ComplimentGenerator() {
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={inView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.2, type: "spring", stiffness: 100 }}
           className="relative"
         >
-          {/* Main compliment card */}
-          <div className="relative bg-white rounded-3xl p-12 border-2 border-cream-200 shadow-2xl shadow-peach-200/30 overflow-hidden">
+          {/* Main compliment card - glassmorphism */}
+          <div className="relative bg-white/80 backdrop-blur-md rounded-3xl p-12 border-2 border-cream-200 shadow-2xl shadow-peach-200/30 overflow-hidden">
             {/* Decorative background gradient */}
-            <div className={`absolute inset-0 bg-gradient-to-br ${currentCompliment.color} opacity-5`} />
+            <motion.div
+              className={`absolute inset-0 bg-gradient-to-br ${currentCompliment.color}`}
+              animate={{ opacity: 0.05 }}
+              transition={{ duration: 0.5 }}
+              key={currentCompliment.text}
+            />
 
             {/* Sparkle decorations */}
-            <div className="absolute top-6 right-6 text-4xl opacity-20 animate-float-gentle">
+            <motion.div
+              className="absolute top-6 right-6 text-4xl opacity-20"
+              animate={{ y: [0, -8, 0], rotate: [0, 10, 0] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            >
               ✨
-            </div>
-            <div className="absolute bottom-6 left-6 text-3xl opacity-20 animate-float-gentle" style={{ animationDelay: "0.5s" }}>
+            </motion.div>
+            <motion.div
+              className="absolute bottom-6 left-6 text-3xl opacity-20"
+              animate={{ y: [0, 6, 0], rotate: [0, -10, 0] }}
+              transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+            >
               💖
-            </div>
+            </motion.div>
 
             {/* Compliment content */}
             <div className="relative z-10">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentCompliment.text}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3 }}
+                  initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -30, scale: 0.9 }}
+                  transition={{ duration: 0.4, type: "spring", stiffness: 200, damping: 20 }}
                   className="text-center space-y-6"
                 >
-                  <div className="text-7xl mb-6 animate-soft-pulse">
+                  <motion.div
+                    className="text-7xl mb-6"
+                    animate={{ scale: [1, 1.1, 1] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                  >
                     {currentCompliment.emoji}
-                  </div>
+                  </motion.div>
                   <p className="font-serif text-3xl sm:text-4xl font-semibold text-soft-brown-500 leading-relaxed">
-                    "{currentCompliment.text}"
+                    &ldquo;{currentCompliment.text}&rdquo;
                   </p>
                 </motion.div>
               </AnimatePresence>
 
-              {/* Generate button */}
+              {/* Generate button with bounce */}
               <div className="flex justify-center mt-10">
                 <motion.button
                   onClick={generateCompliment}
                   disabled={isAnimating}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: 1.08, y: -2 }}
+                  whileTap={{ scale: 0.92 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 15 }}
                   className={`group inline-flex items-center gap-3 px-10 py-5 rounded-full bg-gradient-soft text-white font-semibold text-lg shadow-lg shadow-peach-300/40 hover:shadow-xl hover:shadow-peach-300/50 transition-all duration-300 ${
                     isAnimating ? "opacity-50 cursor-not-allowed" : ""
                   }`}
                 >
-                  <RefreshCw
-                    size={20}
-                    className={isAnimating ? "animate-spin" : "group-hover:rotate-180 transition-transform duration-500"}
-                  />
+                  <motion.span
+                    animate={isAnimating ? { rotate: 360 } : {}}
+                    transition={{ duration: 0.5, ease: "linear" }}
+                  >
+                    <RefreshCw size={20} />
+                  </motion.span>
                   Get Another Compliment
-                  <Heart size={20} className="group-hover:scale-110 transition-transform" />
+                  <motion.span
+                    animate={{ scale: [1, 1.2, 1] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  >
+                    <Heart size={20} />
+                  </motion.span>
                 </motion.button>
               </div>
             </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Mic, Users, Headphones, ExternalLink, Zap } from "lucide-react";
 import SectionImage from "./SectionImage";
@@ -90,24 +90,41 @@ const segments = [
   { name: "Taste Tests", icon: "🍕", desc: "Rating food with zero chill" },
 ];
 
+const staggerContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1 } },
+};
+
+const revealUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, type: "spring" as const, stiffness: 100 } },
+};
+
 export default function HSTShow() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+  const sectionRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+  const bgY = useTransform(scrollYProgress, [0, 1], [0, -80]);
 
   return (
     <section
       id="hst"
+      ref={sectionRef}
       className="relative py-32 px-6 overflow-hidden"
     >
-      {/* Background decoration */}
+      {/* Background decoration with parallax */}
       <div className="absolute inset-0 bg-gradient-to-b from-purple-deep/[0.02] via-transparent to-pink-hot/[0.02]" />
-      <div className="absolute top-40 right-0 w-[500px] h-[500px] bg-purple-mid/5 rounded-full blur-[150px]" />
-      <div className="absolute bottom-40 left-0 w-[500px] h-[500px] bg-pink-hot/5 rounded-full blur-[150px]" />
-      
+      <motion.div style={{ y: bgY }} className="absolute top-40 right-0 w-[500px] h-[500px] bg-purple-mid/5 rounded-full blur-[150px]" />
+      <motion.div style={{ y: useTransform(scrollYProgress, [0, 1], [0, 60]) }} className="absolute bottom-40 left-0 w-[500px] h-[500px] bg-pink-hot/5 rounded-full blur-[150px]" />
+
       {/* Parallax Image */}
-      <SectionImage 
-        src="/images/aryana-7.jpg" 
-        alt="Aryana at HST Show" 
+      <SectionImage
+        src="/images/aryana-7.jpg"
+        alt="Aryana at HST Show"
         position="left"
         size="w-64 h-80"
         offset={50}
@@ -127,7 +144,7 @@ export default function HSTShow() {
           </div>
           <h2 className="font-[family-name:var(--font-space-grotesk)] text-4xl sm:text-5xl md:text-6xl font-bold">
             The{" "}
-            <span className="gradient-text">HST</span>
+            <span className="bg-gradient-to-r from-purple-deep via-pink-hot to-purple-mid bg-clip-text text-transparent">HST</span>
             {" "}Show
           </h2>
           <p className="text-gray-500 text-lg mt-4 max-w-2xl mx-auto">
@@ -136,7 +153,7 @@ export default function HSTShow() {
           </p>
         </motion.div>
 
-        {/* Crew section */}
+        {/* Crew section - staggered */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -149,36 +166,50 @@ export default function HSTShow() {
               The Crew
             </h3>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-            {crewMembers.map((member, i) => (
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            animate={inView ? "visible" : "hidden"}
+            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4"
+          >
+            {crewMembers.map((member) => (
               <motion.div
                 key={member.name}
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 0.3 + i * 0.1 }}
-                className={`relative p-5 rounded-2xl text-center transition-all duration-300 hover:scale-105 ${
+                variants={revealUp}
+                whileHover={{ y: -6, transition: { duration: 0.2 } }}
+                className={`relative p-5 rounded-2xl text-center transition-all duration-300 backdrop-blur-sm ${
                   member.highlight
-                    ? "bg-gradient-to-br from-pink-hot/10 to-purple-mid/10 border-2 border-pink-hot/30 animate-pulse-glow"
-                    : "bg-white border border-gray-100 hover:border-purple-light hover:shadow-md"
+                    ? "bg-gradient-to-br from-pink-hot/10 to-purple-mid/10 border-2 border-pink-hot/30 shadow-lg shadow-pink-hot/10"
+                    : "bg-white/80 border border-gray-100 hover:border-purple-light hover:shadow-lg hover:shadow-purple-mid/10"
                 }`}
               >
-                <div className="text-3xl mb-2">{member.emoji}</div>
+                <motion.div
+                  className="text-3xl mb-2"
+                  whileHover={{ scale: 1.3, rotate: [0, -10, 10, 0] }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {member.emoji}
+                </motion.div>
                 <h4 className="font-[family-name:var(--font-space-grotesk)] font-bold text-lg">
                   {member.name}
                 </h4>
                 <p className="text-xs text-purple-mid font-medium mt-1">{member.role}</p>
                 <p className="text-xs text-gray-400 mt-2 leading-relaxed">{member.detail}</p>
                 {member.highlight && (
-                  <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-pink-hot flex items-center justify-center">
+                  <motion.div
+                    animate={{ scale: [1, 1.2, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-pink-hot flex items-center justify-center"
+                  >
                     <span className="text-white text-xs">★</span>
-                  </div>
+                  </motion.div>
                 )}
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </motion.div>
 
-        {/* Show segments */}
+        {/* Show segments - glassmorphism cards */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -191,26 +222,36 @@ export default function HSTShow() {
               Recurring Segments
             </h3>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {segments.map((seg, i) => (
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            animate={inView ? "visible" : "hidden"}
+            className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4"
+          >
+            {segments.map((seg) => (
               <motion.div
                 key={seg.name}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={inView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ delay: 0.5 + i * 0.1, type: "spring" }}
-                className="p-5 rounded-2xl bg-gradient-to-br from-white to-purple-light/10 border border-purple-light/20 hover:border-purple-mid/30 hover:shadow-lg transition-all duration-300"
+                variants={revealUp}
+                whileHover={{ y: -6, scale: 1.02, transition: { duration: 0.2 } }}
+                className="p-5 rounded-2xl bg-white/60 backdrop-blur-md border border-purple-light/20 hover:border-purple-mid/30 hover:shadow-xl hover:shadow-purple-mid/10 transition-shadow duration-300"
               >
-                <span className="text-3xl">{seg.icon}</span>
+                <motion.span
+                  className="text-3xl inline-block"
+                  whileHover={{ rotate: [0, -15, 15, 0], scale: 1.2 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  {seg.icon}
+                </motion.span>
                 <h4 className="font-[family-name:var(--font-space-grotesk)] font-bold mt-3 mb-1">
                   {seg.name}
                 </h4>
                 <p className="text-sm text-gray-500">{seg.desc}</p>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </motion.div>
 
-        {/* Recent episodes */}
+        {/* Recent episodes - slide in */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -222,14 +263,21 @@ export default function HSTShow() {
               Recent Episodes
             </h3>
           </div>
-          <div className="space-y-3">
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            animate={inView ? "visible" : "hidden"}
+            className="space-y-3"
+          >
             {episodes.map((ep, i) => (
               <motion.div
                 key={ep.title}
-                initial={{ opacity: 0, x: -20 }}
-                animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{ delay: 0.7 + i * 0.08 }}
-                className="group flex items-center gap-4 p-4 rounded-2xl bg-white border border-gray-100 hover:border-purple-light hover:shadow-md hover:shadow-purple-mid/5 transition-all duration-300 cursor-pointer"
+                variants={{
+                  hidden: { opacity: 0, x: -30 },
+                  visible: { opacity: 1, x: 0, transition: { duration: 0.5, type: "spring" as const, stiffness: 120 } },
+                }}
+                whileHover={{ x: 6, transition: { duration: 0.2 } }}
+                className="group flex items-center gap-4 p-4 rounded-2xl bg-white/80 backdrop-blur-sm border border-gray-100 hover:border-purple-light hover:shadow-lg hover:shadow-purple-mid/10 transition-all duration-300 cursor-pointer"
               >
                 <div className="shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-purple-deep to-pink-hot flex items-center justify-center text-white font-bold text-sm">
                   {i + 1}
@@ -247,35 +295,39 @@ export default function HSTShow() {
                 </span>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </motion.div>
 
         {/* Listen CTA */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 1.2 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 1.2, type: "spring" }}
           className="flex flex-col sm:flex-row gap-4 justify-center mt-12"
         >
-          <a
+          <motion.a
             href="https://open.spotify.com/show/2YLMxWuVY6wkSgr2CYxGGM"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-[#1DB954] text-white font-semibold hover:shadow-lg hover:shadow-[#1DB954]/25 transition-all duration-300 hover:scale-105"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-[#1DB954] text-white font-semibold hover:shadow-lg hover:shadow-[#1DB954]/25 transition-all duration-300"
           >
             <Headphones size={18} />
             Listen on Spotify
             <ExternalLink size={14} />
-          </a>
-          <a
+          </motion.a>
+          <motion.a
             href="https://www.instagram.com/thehavingsaidthatshow/"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border-2 border-purple-mid/30 text-purple-deep font-semibold hover:bg-purple-mid/5 hover:border-purple-mid/50 transition-all duration-300 hover:scale-105"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border-2 border-purple-mid/30 text-purple-deep font-semibold hover:bg-purple-mid/5 hover:border-purple-mid/50 transition-all duration-300"
           >
             Follow HST (111K)
             <ExternalLink size={14} />
-          </a>
+          </motion.a>
         </motion.div>
       </div>
     </section>

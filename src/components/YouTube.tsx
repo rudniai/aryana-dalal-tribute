@@ -71,6 +71,23 @@ const highlights = [
   },
 ];
 
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.15 },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 50, scale: 0.95 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.6, type: "spring" as const, stiffness: 100, damping: 15 },
+  },
+};
+
 export default function YouTube() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
@@ -80,14 +97,21 @@ export default function YouTube() {
       id="youtube"
       className="relative py-32 px-6 overflow-hidden"
     >
+      {/* Wave divider top */}
+      <div className="absolute top-0 left-0 right-0 -translate-y-[1px]">
+        <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full" preserveAspectRatio="none">
+          <path d="M0 0L60 8C120 16 240 32 360 38C480 44 600 40 720 32C840 24 960 12 1080 10C1200 8 1320 16 1380 20L1440 24V60H0V0Z" className="fill-white" />
+        </svg>
+      </div>
+
       {/* Background */}
       <div className="absolute top-20 left-0 w-[600px] h-[600px] bg-pink-hot/5 rounded-full blur-[150px]" />
       <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-purple-mid/5 rounded-full blur-[120px]" />
-      
+
       {/* Parallax Image */}
-      <SectionImage 
-        src="/images/aryana-6.jpg" 
-        alt="Aryana cozy" 
+      <SectionImage
+        src="/images/aryana-6.jpg"
+        alt="Aryana cozy"
         position="right"
         size="w-64 h-80"
         offset={-20}
@@ -114,20 +138,30 @@ export default function YouTube() {
           </p>
         </motion.div>
 
-        {/* Playlist cards */}
-        <div className="grid md:grid-cols-3 gap-6 mb-20">
-          {playlists.map((playlist, i) => (
+        {/* Playlist cards - staggered entry */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          className="grid md:grid-cols-3 gap-6 mb-20"
+        >
+          {playlists.map((playlist) => (
             <motion.a
               key={playlist.title}
               href={playlist.link}
               target="_blank"
               rel="noopener noreferrer"
-              initial={{ opacity: 0, y: 40 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.2 + i * 0.15 }}
-              className={`block card-hover rounded-3xl p-8 ${playlist.bgLight} border ${playlist.borderColor} relative overflow-hidden group cursor-pointer`}
+              variants={cardVariants}
+              whileHover={{ y: -8, transition: { duration: 0.3 } }}
+              className={`block rounded-3xl p-8 ${playlist.bgLight} border ${playlist.borderColor} relative overflow-hidden group cursor-pointer backdrop-blur-sm hover:shadow-xl hover:shadow-pink-hot/10 transition-shadow duration-300`}
             >
-              <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">{playlist.emoji}</div>
+              <motion.div
+                className="text-5xl mb-4"
+                whileHover={{ scale: 1.2, rotate: [0, -10, 10, 0] }}
+                transition={{ duration: 0.4 }}
+              >
+                {playlist.emoji}
+              </motion.div>
               <h3 className="font-[family-name:var(--font-space-grotesk)] text-2xl font-bold mb-3 group-hover:text-pink-hot transition-colors">
                 {playlist.title}
               </h3>
@@ -138,26 +172,26 @@ export default function YouTube() {
                 {playlist.vibes.map((vibe) => (
                   <span
                     key={vibe}
-                    className="text-xs px-3 py-1.5 rounded-full bg-white/80 text-gray-500 font-medium border border-gray-100"
+                    className="text-xs px-3 py-1.5 rounded-full bg-white/80 text-gray-500 font-medium border border-gray-100 group-hover:border-pink-light/50 group-hover:bg-pink-hot/5 transition-all duration-300"
                   >
                     {vibe}
                   </span>
                 ))}
               </div>
               {/* Watch link indicator */}
-              <div className="flex items-center gap-2 text-sm font-medium text-pink-hot opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="flex items-center gap-2 text-sm font-medium text-pink-hot opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
                 <span>Watch Playlist</span>
                 <ExternalLink size={14} />
               </div>
               {/* Gradient accent */}
               <div
-                className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-br ${playlist.color} opacity-10 rounded-bl-[60px]`}
+                className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-br ${playlist.color} opacity-10 rounded-bl-[60px] group-hover:opacity-20 group-hover:w-32 group-hover:h-32 transition-all duration-500`}
               />
             </motion.a>
           ))}
-        </div>
+        </motion.div>
 
-        {/* Highlights */}
+        {/* Highlights - staggered with spring */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -166,49 +200,59 @@ export default function YouTube() {
           <h3 className="font-[family-name:var(--font-space-grotesk)] text-2xl font-bold mb-8 text-center">
             Standout Moments
           </h3>
-          <div className="grid sm:grid-cols-2 gap-4">
-            {highlights.map((h, i) => (
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate={inView ? "visible" : "hidden"}
+            className="grid sm:grid-cols-2 gap-4"
+          >
+            {highlights.map((h) => (
               <motion.div
                 key={h.title}
-                initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }}
-                animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.7 + i * 0.1 }}
-                className="group relative p-6 rounded-2xl bg-white border border-gray-100 hover:border-pink-light hover:shadow-lg hover:shadow-pink-hot/5 transition-all duration-300"
+                variants={cardVariants}
+                whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+                className="group relative p-6 rounded-2xl bg-white/80 backdrop-blur-sm border border-gray-100 hover:border-pink-light hover:shadow-lg hover:shadow-pink-hot/10 transition-all duration-300"
               >
                 <div className="flex items-start justify-between mb-2">
                   <h4 className="font-semibold text-gray-900 group-hover:text-pink-hot transition-colors pr-4">
                     {h.title}
                   </h4>
                   {h.hot && (
-                    <span className="shrink-0 text-xs px-2 py-1 rounded-full bg-gradient-to-r from-pink-hot to-orange-400 text-white font-bold">
+                    <motion.span
+                      animate={{ scale: [1, 1.1, 1] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                      className="shrink-0 text-xs px-2 py-1 rounded-full bg-gradient-to-r from-pink-hot to-orange-400 text-white font-bold"
+                    >
                       HOT
-                    </span>
+                    </motion.span>
                   )}
                 </div>
                 <p className="text-sm text-gray-500 mb-3">{h.desc}</p>
                 <span className="text-xs font-medium text-purple-mid">{h.views}</span>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </motion.div>
 
         {/* CTA */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 1 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 1, type: "spring" }}
           className="text-center mt-12"
         >
-          <a
+          <motion.a
             href="https://www.youtube.com/@AryanaDalal"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-red-500 text-white font-semibold hover:bg-red-600 hover:shadow-lg hover:shadow-red-500/25 transition-all duration-300 hover:scale-105"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-red-500 text-white font-semibold hover:bg-red-600 hover:shadow-lg hover:shadow-red-500/25 transition-all duration-300"
           >
             <Play size={18} fill="white" />
             Watch on YouTube
             <ExternalLink size={14} />
-          </a>
+          </motion.a>
         </motion.div>
       </div>
     </section>
