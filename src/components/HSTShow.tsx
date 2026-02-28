@@ -17,7 +17,7 @@ const crewMembers = [
     name: "Jeh",
     fullName: "Jehangir Havaldar",
     role: "Co-Host",
-    detail: "Certified fitness & nutrition expert",
+    detail: "Mumbai's best trainer with the city's nicest gym",
     emoji: "💪",
   },
   {
@@ -32,14 +32,14 @@ const crewMembers = [
     name: "Aman",
     fullName: "Aman",
     role: "Crew",
-    detail: "Food-obsessed film grad",
+    detail: "Film mastermind behind massive productions & creative studio owner",
     emoji: "🎬",
   },
   {
     name: "Sid",
     fullName: "Sid",
     role: "Crew",
-    detail: "The typewriter guy",
+    detail: "The typewriter guy & the creative genius you didn't know you needed",
     emoji: "⌨️",
   },
 ];
