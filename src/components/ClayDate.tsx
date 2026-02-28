@@ -59,7 +59,7 @@ export default function ClayDate() {
           transition={{ duration: 0.7 }}
           className="text-center mb-16"
         >
-          <p className="text-script text-2xl text-terracotta-400 mb-4">
+          <p className="text-script text-2xl text-terracotta-400 mb-6">
             Original Series
           </p>
           
@@ -68,20 +68,21 @@ export default function ClayDate() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={inView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex justify-center mb-6"
+            className="flex justify-center mb-8"
           >
-            <div className="relative w-96 h-32 rounded-2xl overflow-hidden">
+            <div className="relative w-full max-w-md h-40">
               <Image
                 src="/images/claydate-logo.jpg"
                 alt="Clay Date"
                 fill
-                className="object-contain"
+                className="object-contain drop-shadow-lg"
+                priority
               />
             </div>
           </motion.div>
           
-          <p className="text-editorial text-lg text-soft-brown-400 max-w-2xl mx-auto">
-            Heart-to-heart conversations while making pottery. Every Friday at 7 PM IST.
+          <p className="text-editorial text-xl text-soft-brown-400 max-w-3xl mx-auto leading-relaxed">
+            Heart-to-heart conversations while making pottery. Season 1 now streaming.
           </p>
         </motion.div>
 
@@ -89,14 +90,18 @@ export default function ClayDate() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="bg-gradient-to-br from-peach-50 to-blush-50 border border-peach-200 rounded-3xl p-8 mb-16 text-center max-w-2xl mx-auto"
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="bg-gradient-to-br from-peach-50 to-blush-50 border-2 border-peach-200 rounded-3xl p-10 mb-16 text-center max-w-3xl mx-auto shadow-lg shadow-peach-200/30"
         >
-          <div className="space-y-3">
-            <p className="text-sm text-soft-brown-400">Release Schedule</p>
-            <p className="font-serif text-2xl font-semibold text-terracotta-500">Every Friday at 7 PM IST</p>
-            <p className="text-sm text-soft-brown-400">Conversations + Pottery</p>
-          </div>
+          <h3 className="font-serif text-3xl font-bold text-terracotta-500 mb-4">
+            Season 1
+          </h3>
+          <p className="text-editorial text-lg text-soft-brown-500 mb-2">
+            5 Episodes • Conversations + Pottery
+          </p>
+          <p className="text-sm text-soft-brown-400">
+            Real talk, real feelings, real connections
+          </p>
         </motion.div>
 
         {/* Guest grid */}
@@ -155,33 +160,33 @@ export default function ClayDate() {
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ delay: 0.8 }}
-          className="bg-gradient-to-br from-cream-100 to-peach-50 border border-cream-200 rounded-3xl p-10 text-center"
+          className="bg-gradient-to-br from-cream-100 to-peach-50 border-2 border-cream-200 rounded-3xl p-12 text-center shadow-lg shadow-cream-200/40"
         >
-          <h3 className="font-serif text-2xl font-semibold text-soft-brown-500 mb-4">
+          <h3 className="font-serif text-3xl font-bold text-soft-brown-500 mb-6">
             Behind the Scenes
           </h3>
-          <p className="text-editorial text-soft-brown-400 mb-6 max-w-2xl mx-auto">
+          <p className="text-editorial text-lg text-soft-brown-400 mb-10 max-w-2xl mx-auto leading-relaxed">
             Want to know how Clay Date came to life? Watch me reveal everything about the show, 
             the drama, and what goes on behind the camera.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <a
               href="https://www.youtube.com/@AryanaDalal/videos"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-gradient-soft text-white font-semibold hover:shadow-lg hover:shadow-peach-300/30 transition-all duration-300 hover:scale-105"
+              className="inline-flex items-center justify-center gap-2 px-10 py-4 rounded-full bg-gradient-soft text-white font-semibold text-lg hover:shadow-xl hover:shadow-peach-300/40 transition-all duration-300 hover:scale-105"
             >
               Watch All Episodes
-              <ExternalLink size={14} />
+              <ExternalLink size={16} />
             </a>
             <a
               href="https://www.instagram.com/aryanadalal/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border-2 border-terracotta-300 text-terracotta-500 font-semibold hover:bg-terracotta-50 transition-all duration-300 hover:scale-105"
+              className="inline-flex items-center justify-center gap-2 px-10 py-4 rounded-full border-2 border-terracotta-300 text-terracotta-500 font-semibold text-lg hover:bg-terracotta-50 hover:border-terracotta-400 transition-all duration-300 hover:scale-105"
             >
               Follow for Updates
-              <ExternalLink size={14} />
+              <ExternalLink size={16} />
             </a>
           </div>
         </motion.div>
