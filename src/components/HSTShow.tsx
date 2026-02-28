@@ -39,7 +39,7 @@ const crewMembers = [
     name: "Sid",
     fullName: "Sid",
     role: "Crew",
-    detail: "The typewriter guy & the creative genius you didn't know you needed",
+    detail: "The typewriter guy & the quiet force behind the scenes",
     emoji: "⌨️",
   },
 ];
