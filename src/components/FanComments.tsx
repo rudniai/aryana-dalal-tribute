@@ -42,7 +42,7 @@ const fanComments = [
   {
     name: "Rohan M.",
     username: "@rohan_mumbai",
-    comment: "The Mumbai vs Delhi debates with her are ICONIC 😂🔥",
+    comment: "The Bombay vs Delhi debates with her are ICONIC 😂🔥",
     likes: "198",
     verified: false,
   },

@@ -28,7 +28,7 @@ const reelHighlights = [
     emoji: "🍷",
   },
   {
-    caption: "\"Mumbai woman says Delhi food is infinitely better\"",
+    caption: "\"Bombay woman says Delhi food is infinitely better\"",
     type: "The Take That Broke The Internet",
     vibe: "controversial icon",
     gradient: "from-orange-400 to-pink-hot",

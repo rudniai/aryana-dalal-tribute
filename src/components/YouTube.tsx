@@ -26,7 +26,7 @@ const playlists = [
     bgLight: "bg-purple-mid/5",
     borderColor: "border-purple-mid/20",
     description:
-      "Aryana's true calling. She rates, roasts, and reviews food with the kind of honesty that Delhi vs Mumbai debates are made of. Controversial? Always.",
+      "Aryana's true calling. She rates, roasts, and reviews food with the kind of honesty that Delhi vs Bombay debates are made of. Controversial? Always.",
     vibes: ["brutally honest", "foodie approved", "no cap reviews"],
     link: "https://www.youtube.com/@AryanaDalal/videos",
   },
@@ -46,7 +46,7 @@ const playlists = [
 
 const highlights = [
   {
-    title: "The Delhi vs Mumbai Food Debate",
+    title: "The Delhi vs Bombay Food Debate",
     desc: "The one where she said Delhi food is \"infinitely better\" and the internet lost it",
     views: "Went viral on CurlyTales",
     hot: true,

@@ -1,121 +1,65 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { MapPin, Heart, Coffee, Sparkles } from "lucide-react";
-import SectionImage from "./SectionImage";
-
-const traits = [
-  { icon: MapPin, label: "Mumbai, always", color: "text-pink-hot" },
-  { icon: Coffee, label: "Food > Everything", color: "text-purple-mid" },
-  { icon: Heart, label: "Feelings, boys & F1", color: "text-pink-hot" },
-  { icon: Sparkles, label: "Tarot reader", color: "text-purple-mid" },
-];
+import Image from "next/image";
 
 export default function About() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="about" className="relative py-32 px-6 overflow-hidden">
-      {/* Background accent */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-purple-soft/10 rounded-full blur-[100px]" />
-      
-      {/* Parallax Image */}
-      <SectionImage 
-        src="/images/aryana-2.jpg" 
-        alt="Aryana" 
-        position="right"
-        size="w-72 h-96"
-      />
+    <section id="about" className="relative py-32 px-6 overflow-hidden bg-white">
+      {/* Subtle background */}
+      <div className="absolute top-1/2 right-0 w-96 h-96 bg-peach-50 rounded-full blur-3xl opacity-50" />
 
       <div ref={ref} className="max-w-6xl mx-auto relative z-10">
-        <div className="grid md:grid-cols-2 gap-16 items-center">
-          {/* Left side - Profile visual */}
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          {/* Images grid */}
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
+            initial={{ opacity: 0, x: -30 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8 }}
-            className="relative"
+            transition={{ duration: 0.7 }}
+            className="relative order-2 lg:order-1"
           >
-            <div className="relative w-72 h-72 sm:w-80 sm:h-80 mx-auto">
-              {/* Decorative ring */}
-              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-pink-hot to-purple-mid animate-spin-slow opacity-20" />
-              <div className="absolute inset-2 rounded-full bg-cream" />
-              {/* Inner content */}
-              <div className="absolute inset-4 rounded-full bg-gradient-to-br from-pink-hot/10 to-purple-mid/10 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="text-6xl mb-2">👑</div>
-                  <p className="font-[family-name:var(--font-space-grotesk)] text-2xl font-bold gradient-text">
-                    Ary
-                  </p>
-                  <p className="text-sm text-gray-400 mt-1">22K on Insta</p>
-                  <p className="text-sm text-gray-400">8.9K on YouTube</p>
-                </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-lg shadow-peach-200/30">
+                <Image src="/images/aryana-2.jpg" alt="Aryana" fill className="object-cover" />
+              </div>
+              <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-lg shadow-blush-200/30 mt-8">
+                <Image src="/images/aryana-6.jpg" alt="Aryana" fill className="object-cover" />
               </div>
             </div>
-
-            {/* Floating badges */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0 }}
-              animate={inView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ delay: 0.5, type: "spring" }}
-              className="absolute -top-2 right-8 sm:right-16 px-4 py-2 rounded-2xl bg-white shadow-lg shadow-pink-hot/10 border border-pink-light/50"
-            >
-              <span className="text-sm font-semibold text-pink-hot">Jai Hind College 🎓</span>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, scale: 0 }}
-              animate={inView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ delay: 0.7, type: "spring" }}
-              className="absolute -bottom-2 left-4 sm:left-12 px-4 py-2 rounded-2xl bg-white shadow-lg shadow-purple-mid/10 border border-purple-light/50"
-            >
-              <span className="text-sm font-semibold text-purple-deep">Community @ Kult App 💼</span>
-            </motion.div>
           </motion.div>
 
-          {/* Right side - Text */}
+          {/* Text */}
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
+            initial={{ opacity: 0, x: 30 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="space-y-6 order-1 lg:order-2"
           >
-            <span className="text-sm font-semibold text-purple-mid uppercase tracking-widest">
-              Who is she?
-            </span>
-            <h2 className="font-[family-name:var(--font-space-grotesk)] text-4xl sm:text-5xl font-bold mt-3 mb-6">
-              The girl who keeps it{" "}
-              <span className="gradient-text">unapologetically real</span>
-            </h2>
-            <div className="space-y-4 text-gray-600 text-lg leading-relaxed">
-              <p>
-                Mumbai-born, SoBo-raised, and chronically online — Aryana (or &ldquo;Ary&rdquo; to her
-                crew) is the kind of person who will tell you Delhi food is better than Mumbai&rsquo;s{" "}
-                <em>and mean it.</em> She tweets about her feelings, boys, and Formula 1,
-                and she&rsquo;s not sorry about any of it.
+            <div>
+              <p className="text-script text-2xl text-terracotta-400 mb-4">
+                Who is she?
               </p>
-              <p>
-                When she&rsquo;s not filming food reviews or dropping vlogs on YouTube, she&rsquo;s
-                on set with the Having Said That Show crew — bringing the chaotic, unfiltered energy
-                that makes HST what it is. She also runs tarot sessions because yes, she contains multitudes.
-              </p>
+              <h2 className="text-headline text-5xl sm:text-6xl text-soft-brown-500 mb-6">
+                Hey, I'm <span className="gradient-text-soft">Aryana</span>
+              </h2>
             </div>
 
-            {/* Trait chips */}
-            <div className="flex flex-wrap gap-3 mt-8">
-              {traits.map((trait, i) => (
-                <motion.div
-                  key={trait.label}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={inView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: 0.5 + i * 0.1 }}
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white shadow-sm border border-gray-100 hover:shadow-md hover:border-pink-light transition-all duration-300"
-                >
-                  <trait.icon size={16} className={trait.color} />
-                  <span className="text-sm font-medium text-gray-700">{trait.label}</span>
-                </motion.div>
-              ))}
+            <div className="space-y-4 text-editorial text-lg text-soft-brown-400">
+              <p>
+                A Bombay-based content creator who loves eating, yapping, and being unapologetically herself.
+              </p>
+
+              <p>
+                Whether it's reviewing the city's best food spots, creating <span className="font-semibold text-terracotta-500">Clay Date</span> over pottery, or being part of <span className="font-semibold text-terracotta-500">The Having Said That Show</span> — I keep it real, always.
+              </p>
+
+              <p>
+                No filters. No fake vibes. Just me doing what I love and bringing you along for the ride.
+              </p>
             </div>
           </motion.div>
         </div>

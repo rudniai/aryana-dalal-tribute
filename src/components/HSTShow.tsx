@@ -17,7 +17,7 @@ const crewMembers = [
     name: "Jeh",
     fullName: "Jehangir Havaldar",
     role: "Co-Host",
-    detail: "Mumbai's best trainer with the city's nicest gym",
+    detail: "Bombay's best trainer with the city's nicest gym",
     emoji: "💪",
   },
   {
@@ -131,7 +131,7 @@ export default function HSTShow() {
             {" "}Show
           </h2>
           <p className="text-gray-500 text-lg mt-4 max-w-2xl mx-auto">
-            Mumbai&rsquo;s most unfiltered pod-show. New episodes every Thursday since July 2022.
+            Bombay&rsquo;s most unfiltered pod-show. New episodes every Thursday since July 2022.
             188+ episodes of pure chaos, honesty, and good vibes.
           </p>
         </motion.div>

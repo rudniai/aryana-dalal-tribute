@@ -1,144 +1,201 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
+import { useState } from "react";
+import Image from "next/image";
 
-const floatingEmojis = [
-  { emoji: "🎙️", top: "15%", left: "8%", delay: 0, size: "text-4xl" },
-  { emoji: "🍕", top: "25%", right: "12%", delay: 1, size: "text-3xl" },
-  { emoji: "💜", top: "60%", left: "5%", delay: 2, size: "text-2xl" },
-  { emoji: "✨", top: "70%", right: "8%", delay: 0.5, size: "text-5xl" },
-  { emoji: "🎬", top: "40%", left: "15%", delay: 1.5, size: "text-3xl" },
-  { emoji: "🏎️", top: "80%", right: "15%", delay: 2.5, size: "text-2xl" },
-  { emoji: "🔮", top: "10%", right: "25%", delay: 3, size: "text-3xl" },
-  { emoji: "🫶", top: "85%", left: "20%", delay: 1.8, size: "text-4xl" },
+const loveOptions = [
+  {
+    id: "herself",
+    label: "herself",
+    color: "from-peach-400 to-blush-400",
+    link: "#about"
+  },
+  {
+    id: "bombay",
+    label: "Bombay",
+    color: "from-terracotta-400 to-peach-400",
+    link: "#bombay-content"
+  },
+  {
+    id: "eating",
+    label: "eating",
+    color: "from-blush-400 to-peach-500",
+    link: "#food-content"
+  },
+  {
+    id: "yapping",
+    label: "yapping",
+    color: "from-peach-500 to-terracotta-400",
+    link: "#podcast-content"
+  },
+];
+
+// Collage images - using various Aryana photos
+const collageImages = [
+  { src: "/images/aryana-1.jpg", size: "large", position: "top-left" },
+  { src: "/images/aryana-2.jpg", size: "medium", position: "top-right" },
+  { src: "/images/aryana-3.jpg", size: "small", position: "middle-left" },
+  { src: "/images/aryana-4.jpg", size: "medium", position: "middle-right" },
+  { src: "/images/aryana-5.jpg", size: "large", position: "bottom-left" },
+  { src: "/images/aryana-6.jpg", size: "small", position: "bottom-right" },
 ];
 
 export default function Hero() {
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"]
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const [activeOption, setActiveOption] = useState<string | null>(null);
 
   return (
-    <section ref={containerRef} className="relative min-h-screen flex items-center justify-center overflow-hidden noise-bg">
-      {/* Parallax Background Image */}
-      <motion.div 
-        style={{ y, opacity }}
-        className="absolute inset-0 z-0"
-      >
-        {/* Aryana's stunning photo as hero background */}
-        <div className="absolute inset-0 bg-[url('/images/aryana-9.jpg')] bg-cover bg-center opacity-10" />
-        <div className="absolute inset-0 bg-gradient-to-b from-white via-transparent to-white" />
-      </motion.div>
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-b from-cream-50 via-white to-cream-50">
+      {/* Subtle background accents */}
+      <div className="absolute top-20 right-10 w-64 h-64 bg-peach-100 rounded-full blur-3xl opacity-40" />
+      <div className="absolute bottom-20 left-10 w-96 h-96 bg-blush-100 rounded-full blur-3xl opacity-30" />
 
-      {/* Background gradient blobs */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 -left-32 w-[500px] h-[500px] bg-pink-hot/20 rounded-full blur-[120px] animate-blob" />
-        <div className="absolute bottom-1/4 -right-32 w-[600px] h-[600px] bg-purple-mid/20 rounded-full blur-[120px] animate-blob" style={{ animationDelay: "4s" }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-pink-light/30 rounded-full blur-[100px] animate-blob" style={{ animationDelay: "2s" }} />
-      </div>
-
-      {/* Floating emojis */}
-      {floatingEmojis.map((item, i) => (
-        <motion.span
-          key={i}
-          className={`absolute ${item.size} pointer-events-none select-none`}
-          style={{
-            top: item.top,
-            left: item.left,
-            right: item.right,
-          }}
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 0.6, scale: 1 }}
-          transition={{ delay: item.delay + 0.8, duration: 0.5 }}
-        >
-          <span className="inline-block animate-float" style={{ animationDelay: `${item.delay}s` }}>
-            {item.emoji}
-          </span>
-        </motion.span>
-      ))}
-
-      {/* Main content */}
-      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
-          <span className="inline-block px-5 py-2 rounded-full bg-gradient-to-r from-pink-hot/10 to-purple-mid/10 border border-pink-hot/20 text-sm font-medium text-pink-hot mb-8">
-            a tribute to the one and only
-          </span>
-        </motion.div>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="font-[family-name:var(--font-space-grotesk)] text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-tight mb-6"
-        >
-          <span className="gradient-text">Aryana</span>
-          <br />
-          <span className="text-gray-900">Dalal</span>
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-          className="text-xl md:text-2xl text-gray-500 font-medium mb-4 italic"
-        >
-          &ldquo;Living my reel life&rdquo;
-        </motion.p>
-
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
-          className="text-base md:text-lg text-gray-400 max-w-xl mx-auto mb-10"
-        >
-          Content creator &middot; Podcast fam &middot; Food obsessed &middot; F1 fan &middot; Mumbai girl
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.7, ease: "easeOut" }}
-          className="flex flex-col sm:flex-row gap-4 justify-center"
-        >
-          <a
-            href="#youtube"
-            className="px-8 py-4 rounded-full bg-gradient-to-r from-pink-hot to-purple-mid text-white font-semibold text-lg hover:shadow-xl hover:shadow-pink-hot/25 transition-all duration-300 hover:scale-105 active:scale-95"
-          >
-            Watch her best moments
-          </a>
-          <a
-            href="#hst"
-            className="px-8 py-4 rounded-full border-2 border-purple-mid/30 text-purple-deep font-semibold text-lg hover:bg-purple-mid/5 hover:border-purple-mid/50 transition-all duration-300 hover:scale-105 active:scale-95"
-          >
-            The HST Show
-          </a>
-        </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        >
+      <div className="max-w-7xl mx-auto px-6 py-20 w-full relative z-10">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Left side - Image collage */}
           <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="w-6 h-10 rounded-full border-2 border-pink-hot/30 flex justify-center pt-2"
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="relative"
           >
-            <div className="w-1.5 h-1.5 rounded-full bg-pink-hot/50" />
+            {/* Main collage container */}
+            <div className="relative w-full aspect-square max-w-lg mx-auto">
+              {/* Scattered photo layout */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
+                animate={{ opacity: 1, scale: 1, rotate: -3 }}
+                transition={{ delay: 0.2 }}
+                className="absolute top-0 left-0 w-48 h-56 rounded-2xl overflow-hidden shadow-xl shadow-peach-200/40 z-10"
+              >
+                <Image src="/images/aryana-1.jpg" alt="Aryana" fill className="object-cover" />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8, rotate: 5 }}
+                animate={{ opacity: 1, scale: 1, rotate: 4 }}
+                transition={{ delay: 0.3 }}
+                className="absolute top-12 right-0 w-40 h-48 rounded-2xl overflow-hidden shadow-xl shadow-blush-200/40 z-20"
+              >
+                <Image src="/images/aryana-2.jpg" alt="Aryana" fill className="object-cover" />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8, rotate: -3 }}
+                animate={{ opacity: 1, scale: 1, rotate: -2 }}
+                transition={{ delay: 0.4 }}
+                className="absolute bottom-24 left-8 w-44 h-52 rounded-2xl overflow-hidden shadow-xl shadow-peach-200/40 z-15"
+              >
+                <Image src="/images/aryana-3.jpg" alt="Aryana" fill className="object-cover" />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8, rotate: 6 }}
+                animate={{ opacity: 1, scale: 1, rotate: 5 }}
+                transition={{ delay: 0.5 }}
+                className="absolute bottom-0 right-8 w-48 h-60 rounded-2xl overflow-hidden shadow-xl shadow-terracotta-200/40 z-25"
+              >
+                <Image src="/images/aryana-4.jpg" alt="Aryana" fill className="object-cover" />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.6 }}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 h-44 rounded-2xl overflow-hidden shadow-xl shadow-blush-200/40 z-30 border-4 border-white"
+              >
+                <Image src="/images/aryana-5.jpg" alt="Aryana" fill className="object-cover" />
+              </motion.div>
+            </div>
           </motion.div>
-        </motion.div>
+
+          {/* Right side - Interactive text */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="space-y-8"
+          >
+            <div>
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="text-headline text-6xl sm:text-7xl lg:text-8xl font-bold text-soft-brown-500 mb-4"
+              >
+                Aryana Dalal
+              </motion.h1>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+                className="text-script text-3xl text-terracotta-400"
+              >
+                Content Creator • Bombay
+              </motion.p>
+            </div>
+
+            {/* Interactive "She loves..." section */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7 }}
+              className="space-y-4"
+            >
+              <p className="font-serif text-2xl text-soft-brown-500">
+                She loves...
+              </p>
+              <div className="flex flex-wrap gap-3">
+                {loveOptions.map((option, i) => (
+                  <motion.a
+                    key={option.id}
+                    href={option.link}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.8 + i * 0.1 }}
+                    onMouseEnter={() => setActiveOption(option.id)}
+                    onMouseLeave={() => setActiveOption(null)}
+                    className={`group relative px-6 py-3 rounded-full font-semibold text-lg transition-all duration-300 hover:scale-110 hover:shadow-xl ${
+                      activeOption === option.id
+                        ? `bg-gradient-to-r ${option.color} text-white shadow-lg`
+                        : 'bg-white border-2 border-cream-200 text-soft-brown-500 hover:border-peach-300'
+                    }`}
+                  >
+                    {option.label}
+                    {activeOption === option.id && (
+                      <motion.div
+                        layoutId="activeIndicator"
+                        className={`absolute inset-0 bg-gradient-to-r ${option.color} rounded-full -z-10`}
+                        transition={{ type: "spring", duration: 0.5 }}
+                      />
+                    )}
+                  </motion.a>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Stats */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1 }}
+              className="flex flex-wrap gap-6 pt-4"
+            >
+              <div>
+                <div className="text-3xl font-serif font-semibold gradient-text-soft">8.9K+</div>
+                <div className="text-sm text-soft-brown-400">YouTube</div>
+              </div>
+              <div>
+                <div className="text-3xl font-serif font-semibold gradient-text-soft">11+</div>
+                <div className="text-sm text-soft-brown-400">Brands</div>
+              </div>
+              <div>
+                <div className="text-3xl font-serif font-semibold gradient-text-soft">2</div>
+                <div className="text-sm text-soft-brown-400">Shows</div>
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
