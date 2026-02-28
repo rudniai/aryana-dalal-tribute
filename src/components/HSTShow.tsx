@@ -24,7 +24,7 @@ const crewMembers = [
     name: "Ary",
     fullName: "Aryana Dalal",
     role: "The Newest Member",
-    detail: "Social media creator & the heart of HST",
+    detail: "The reason you watch the show",
     emoji: "💖",
     highlight: true,
   },
