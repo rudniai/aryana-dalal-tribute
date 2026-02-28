@@ -109,16 +109,20 @@ export default function PublicNotes() {
     setIsSubmitting(true)
 
     try {
-      const { error } = await supabase
-        .from('kindness_messages')
-        .insert([
-          {
-            message: newMessage.trim(),
-            approved: true
-          }
-        ])
+      // Submit via server-side API route (AI moderation happens here)
+      const res = await fetch('/api/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: newMessage.trim() }),
+      })
 
-      if (error) throw error
+      const result = await res.json()
+
+      if (!res.ok) {
+        setErrorMessage(result.error || 'This message cannot be posted.')
+        setIsSubmitting(false)
+        return
+      }
 
       // Save to recent messages for duplicate checking
       saveToRecent(newMessage)
