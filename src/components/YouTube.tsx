@@ -83,7 +83,7 @@ export default function YouTube() {
       
       {/* Parallax Image */}
       <SectionImage 
-        src="/images/cropped-aryana-6.jpg" 
+        src="/images/aryana-6.png" 
         alt="Aryana cozy" 
         position="right"
         size="w-64 h-80"

@@ -1,61 +1,99 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useState, useRef } from "react";
 
-// Aryana's actual stunning photos - cropped to perfection! 📸
+// Aryana's stunning photos 📸
 const photos = [
   {
-    url: "/images/cropped-aryana-1.jpg",
+    url: "/images/aryana-1.png",
     caption: "Cute selfie vibes 🤓💜",
     likes: "12.5K",
   },
   {
-    url: "/images/cropped-aryana-2.jpg",
+    url: "/images/aryana-2.png",
     caption: "Skincare routine essentials ✨",
     likes: "8.2K",
   },
   {
-    url: "/images/cropped-aryana-3.jpg",
+    url: "/images/aryana-3.png",
     caption: "Outdoor moments 🌴",
     likes: "15.3K",
   },
   {
-    url: "/images/cropped-aryana-4.jpg",
+    url: "/images/aryana-4.png",
     caption: "Flower power 🌸💕",
     likes: "11.7K",
   },
   {
-    url: "/images/cropped-aryana-5.jpg",
+    url: "/images/aryana-5.png",
     caption: "Elegant evening look ✨",
     likes: "18.2K",
   },
   {
-    url: "/images/cropped-aryana-6.jpg",
+    url: "/images/aryana-6.png",
     caption: "Cozy home vibes 🏡",
     likes: "13.1K",
   },
   {
-    url: "/images/cropped-aryana-7.jpg",
+    url: "/images/aryana-7.png",
     caption: "Traditional glam 💫",
     likes: "16.4K",
   },
   {
-    url: "/images/cropped-aryana-8.jpg",
+    url: "/images/aryana-8.png",
     caption: "Floral dress season 🌺",
     likes: "14.6K",
   },
   {
-    url: "/images/cropped-aryana-9.jpg",
+    url: "/images/aryana-9.png",
     caption: "Monaco adventures 🇲🇨",
     likes: "19.5K",
   },
   {
-    url: "/images/cropped-aryana-10.jpg",
+    url: "/images/aryana-10.png",
     caption: "Blue beauty 💙✨",
     likes: "17.3K",
   },
 ];
+
+function PhotoCard({ photo, index, onClick }: { photo: typeof photos[0]; index: number; onClick: () => void }) {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], [30, -30]);
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 40, scale: 0.95 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.6, delay: (index % 3) * 0.15, ease: "easeOut" }}
+      whileHover={{ scale: 1.05 }}
+      onClick={onClick}
+      className="relative group cursor-pointer overflow-hidden rounded-2xl glass card-hover"
+    >
+      <div className="aspect-[4/5] md:aspect-square bg-gradient-to-br from-pink-light/20 to-purple-soft/20 overflow-hidden">
+        <motion.img
+          src={photo.url}
+          alt={photo.caption}
+          style={{ y }}
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+        />
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+        <p className="text-white font-semibold text-lg mb-2">{photo.caption}</p>
+        <div className="flex items-center gap-2 text-pink-light">
+          <span className="text-2xl">❤️</span>
+          <span className="font-medium">{photo.likes}</span>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
 
 export default function PhotoGallery() {
   const [selectedPhoto, setSelectedPhoto] = useState<number | null>(null);
@@ -80,33 +118,7 @@ export default function PhotoGallery() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {photos.map((photo, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ scale: 1.03 }}
-              onClick={() => setSelectedPhoto(index)}
-              className="relative group cursor-pointer overflow-hidden rounded-2xl glass card-hover"
-            >
-              <div className="aspect-[4/5] md:aspect-square bg-gradient-to-br from-pink-light/20 to-purple-soft/20">
-                <img
-                  src={photo.url}
-                  alt={photo.caption}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-              </div>
-              
-              {/* Overlay on hover */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                <p className="text-white font-semibold text-lg mb-2">{photo.caption}</p>
-                <div className="flex items-center gap-2 text-pink-light">
-                  <span className="text-2xl">❤️</span>
-                  <span className="font-medium">{photo.likes}</span>
-                </div>
-              </div>
-            </motion.div>
+            <PhotoCard key={index} photo={photo} index={index} onClick={() => setSelectedPhoto(index)} />
           ))}
         </div>
 

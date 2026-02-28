@@ -106,7 +106,7 @@ export default function HSTShow() {
       
       {/* Parallax Image */}
       <SectionImage 
-        src="/images/cropped-aryana-7.jpg" 
+        src="/images/aryana-7.png" 
         alt="Aryana at HST Show" 
         position="left"
         size="w-64 h-80"

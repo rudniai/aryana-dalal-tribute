@@ -24,7 +24,7 @@ export default function About() {
       
       {/* Parallax Image */}
       <SectionImage 
-        src="/images/cropped-aryana-2.jpg" 
+        src="/images/aryana-2.png" 
         alt="Aryana" 
         position="right"
         size="w-72 h-96"

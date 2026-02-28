@@ -6,42 +6,42 @@ import { useRef } from "react";
 // Actual Aryana photos floating with parallax effects!
 const images = [
   {
-    src: "/images/aryana-1.jpg",
+    src: "/images/aryana-1.png",
     alt: "Aryana",
     position: { top: "10%", left: "5%", rotate: -5 },
     size: "w-48 h-64",
     parallaxSpeed: 0.3,
   },
   {
-    src: "/images/aryana-3.jpg",
+    src: "/images/aryana-3.png",
     alt: "Aryana outdoors",
     position: { top: "25%", right: "8%", rotate: 8 },
     size: "w-56 h-72",
     parallaxSpeed: 0.5,
   },
   {
-    src: "/images/aryana-5.jpg",
+    src: "/images/aryana-5.png",
     alt: "Aryana elegant dress",
     position: { top: "45%", left: "3%", rotate: -3 },
     size: "w-40 h-56",
     parallaxSpeed: 0.4,
   },
   {
-    src: "/images/aryana-7.jpg",
+    src: "/images/aryana-7.png",
     alt: "Aryana traditional",
     position: { top: "60%", right: "5%", rotate: 5 },
     size: "w-52 h-68",
     parallaxSpeed: 0.6,
   },
   {
-    src: "/images/aryana-8.jpg",
+    src: "/images/aryana-8.png",
     alt: "Aryana floral dress",
     position: { top: "75%", left: "7%", rotate: -7 },
     size: "w-44 h-60",
     parallaxSpeed: 0.35,
   },
   {
-    src: "/images/aryana-10.jpg",
+    src: "/images/aryana-10.png",
     alt: "Aryana blue outfit",
     position: { top: "85%", right: "10%", rotate: 4 },
     size: "w-48 h-64",
