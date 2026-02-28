@@ -247,3 +247,39 @@ export function saveToRecent(message: string): void {
   
   localStorage.setItem(recentMessagesKey, JSON.stringify(recent))
 }
+
+/**
+ * Check if a message should be hidden (for display filtering)
+ * More lenient than moderateMessage - just checks for obvious bad content
+ */
+export function shouldHideMessage(message: string): boolean {
+  const lowerMessage = message.toLowerCase()
+  
+  // Check profanity
+  const profanityCheck = containsProfanity(message)
+  if (profanityCheck.found) return true
+  
+  // Check for severe negativity (death threats, self-harm, extreme hate)
+  const severeNegative = [
+    'kill', 'die', 'death', 'suicide', 'hurt yourself',
+    'kys', 'end your life', 'harm yourself'
+  ]
+  
+  for (const phrase of severeNegative) {
+    if (lowerMessage.includes(phrase)) return true
+  }
+  
+  // Check spam
+  if (containsSpam(message)) return true
+  
+  return false
+}
+
+/**
+ * Filter out inappropriate messages from an array
+ */
+export function filterMessages<T extends { message: string }>(
+  messages: T[]
+): T[] {
+  return messages.filter(msg => !shouldHideMessage(msg.message))
+}

@@ -2,14 +2,15 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
-import { Heart, Send, Sparkles, RefreshCw, AlertCircle } from 'lucide-react'
+import { Heart, Send, Sparkles, RefreshCw, AlertCircle, Flag } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import { 
   moderateMessage, 
   checkRateLimit, 
   updateSubmitTimestamp, 
   isDuplicate, 
-  saveToRecent 
+  saveToRecent,
+  filterMessages
 } from '@/lib/moderation'
 
 interface KindnessMessage {
@@ -35,10 +36,22 @@ export default function PublicNotes() {
   const [showSuccess, setShowSuccess] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [reportedMessages, setReportedMessages] = useState<Set<string>>(new Set())
 
-  // Load messages on mount
+  // Load messages and reported state on mount
   useEffect(() => {
     loadMessages()
+    
+    // Load reported messages from localStorage
+    const stored = localStorage.getItem('kindness-wall-reported')
+    if (stored) {
+      try {
+        const reported = JSON.parse(stored)
+        setReportedMessages(new Set(reported))
+      } catch {
+        // Ignore parse errors
+      }
+    }
   }, [])
 
   const loadMessages = async () => {
@@ -49,12 +62,15 @@ export default function PublicNotes() {
         .select('*')
         .eq('approved', true)
         .order('created_at', { ascending: false })
-        .limit(12) // Show latest 12 messages
+        .limit(20) // Fetch more to account for filtering
 
       if (error) throw error
 
       if (data) {
-        setMessages(data)
+        // Filter out any inappropriate messages that slipped through
+        const filtered = filterMessages(data)
+        // Take only first 12 after filtering
+        setMessages(filtered.slice(0, 12))
       }
     } catch (error) {
       console.error('Error loading messages:', error)
@@ -126,6 +142,34 @@ export default function PublicNotes() {
     }
   }
 
+  const handleReport = async (messageId: string) => {
+    // Check if already reported
+    if (reportedMessages.has(messageId)) {
+      return
+    }
+
+    try {
+      // Call Supabase RPC function to increment report count
+      const { error } = await supabase.rpc('report_message', { msg_id: messageId })
+
+      if (error) throw error
+
+      // Mark as reported in local state
+      const newReported = new Set(reportedMessages)
+      newReported.add(messageId)
+      setReportedMessages(newReported)
+
+      // Save to localStorage
+      localStorage.setItem('kindness-wall-reported', JSON.stringify(Array.from(newReported)))
+
+      // Optional: show a brief success message
+      // You could add a toast notification here
+    } catch (error) {
+      console.error('Error reporting message:', error)
+      // Silently fail - don't bother the user
+    }
+  }
+
   return (
     <section
       id="public-notes"
@@ -175,14 +219,28 @@ export default function PublicNotes() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={inView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className={`bg-gradient-to-br ${noteColors[index % noteColors.length]} rounded-2xl p-6 shadow-md border-2 border-white/50 hover:shadow-lg hover:scale-[1.02] transition-all duration-300`}
+                    className={`relative bg-gradient-to-br ${noteColors[index % noteColors.length]} rounded-2xl p-6 shadow-md border-2 border-white/50 hover:shadow-lg hover:scale-[1.02] transition-all duration-300`}
                   >
                     <div className="flex items-start gap-3">
                       <Heart className="w-5 h-5 text-blush-400 flex-shrink-0 mt-1" fill="currentColor" />
-                      <p className="text-soft-brown-700 leading-relaxed">
+                      <p className="text-soft-brown-700 leading-relaxed flex-1">
                         {msg.message}
                       </p>
                     </div>
+                    
+                    {/* Report button */}
+                    <button
+                      onClick={() => handleReport(msg.id)}
+                      disabled={reportedMessages.has(msg.id)}
+                      className={`absolute top-2 right-2 p-1.5 rounded-full transition-colors ${
+                        reportedMessages.has(msg.id)
+                          ? 'text-gray-400 cursor-not-allowed'
+                          : 'text-soft-brown-400 hover:text-red-500 hover:bg-white/50'
+                      }`}
+                      title={reportedMessages.has(msg.id) ? 'Already reported' : 'Report inappropriate content'}
+                    >
+                      <Flag className="w-3.5 h-3.5" />
+                    </button>
                   </motion.div>
                 ))}
               </div>
