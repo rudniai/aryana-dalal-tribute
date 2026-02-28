@@ -4,40 +4,61 @@ The Wall of Kindness now has comprehensive content moderation to keep the space 
 
 ## Features
 
-### 1. Profanity Filter
+### 1. Display-Time Filtering ⭐ NEW
+Messages are now filtered **both** on submission AND on display:
+- Fetches 20 messages from database
+- Filters out any with profanity, spam, or severe negativity
+- Displays top 12 clean messages
+- Catches old inappropriate content that slipped through before moderation
+- Runs client-side for fast filtering
+
+### 2. User Reporting System ⭐ NEW
+Users can flag inappropriate messages:
+- Small flag icon in top-right of each message card
+- Click to report → increments count in database
+- Message auto-hides after **3 reports**
+- Prevents spam: tracks reported messages in localStorage
+- Unobtrusive design (gray when already reported)
+
+**Database:**
+- `message_reports` table tracks report counts
+- RPC function `report_message()` handles incrementing
+- Trigger auto-updates `approved` status at 3+ reports
+
+### 3. Profanity Filter
 Blocks common profanity and variations:
 - Common swear words
 - Variations with symbols (e.g., `f*ck`, `sh*t`, `a$$`)
 - Phonetic spellings (e.g., `fuk`, `fck`)
 - Uses word-boundary matching to avoid false positives
 
-### 2. Negativity Detection
+### 4. Negativity Detection
 Blocks mean, hurtful, or negative content:
 - Insults (ugly, loser, pathetic, etc.)
 - Hate speech
 - Self-harm references
 - Generally negative words (stupid, hate, terrible, etc.)
 
-### 3. Spam Filtering
+### 5. Spam Filtering
 Automatically rejects spam patterns:
 - URLs (http://, https://, www.)
 - Email addresses (anything with @)
 - Phone numbers (10+ digit sequences)
 - Common spam phrases ("click here", "buy now", "limited offer", etc.)
 
-### 4. Rate Limiting
+### 6. Rate Limiting
 Client-side rate limiting to prevent spam:
 - **1 minute cooldown** between submissions
 - Shows countdown timer when user tries to submit too quickly
 - Stored in localStorage (persists across page refreshes)
 
-### 5. Duplicate Detection
+### 7. Duplicate Detection
 Prevents the same message from being posted multiple times:
 - Checks against last 10 submitted messages
 - Case-insensitive comparison
 - Stored locally in browser
 
-### 6. Content Quality Checks
+### 8. Content Quality Checks
 Ensures meaningful contributions:
 - **Minimum length:** 10 characters
 - **No excessive repetition:** Blocks messages with 5+ repeated characters
@@ -58,6 +79,21 @@ Users get clear, friendly feedback when content is rejected:
 - Success messages appear in a peach box with a heart icon
 - Errors auto-clear when user starts typing
 - Submit button disabled while submitting
+
+## Setup (for Reporting Feature)
+
+To enable user reporting, run the additional SQL migration:
+
+1. Go to Supabase SQL Editor: https://supabase.com/dashboard/project/kmrzhzjjczudbwmgyegq/sql/new
+2. Copy and paste the contents of `supabase-add-reports.sql`
+3. Click **Run**
+
+This creates:
+- `message_reports` table for tracking reports
+- RPC function `report_message()` for incrementing counts
+- Trigger to auto-hide messages at 3+ reports
+
+**Note:** The display filtering works without this migration, but reporting functionality requires it.
 
 ## Technical Implementation
 
