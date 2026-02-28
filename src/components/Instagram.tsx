@@ -67,7 +67,7 @@ export default function Instagram() {
     >
       {/* Parallax Image */}
       <SectionImage 
-        src="/images/aryana-4.png" 
+        src="/images/aryana-4.jpg" 
         alt="Aryana with flowers" 
         position="left"
         size="w-72 h-96"

@@ -32,7 +32,7 @@ export default function Hero() {
         className="absolute inset-0 z-0"
       >
         {/* Aryana's stunning photo as hero background */}
-        <div className="absolute inset-0 bg-[url('/images/aryana-9.png')] bg-cover bg-center opacity-10" />
+        <div className="absolute inset-0 bg-[url('/images/aryana-9.jpg')] bg-cover bg-center opacity-10" />
         <div className="absolute inset-0 bg-gradient-to-b from-white via-transparent to-white" />
       </motion.div>
 

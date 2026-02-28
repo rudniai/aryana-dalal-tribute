@@ -95,7 +95,7 @@ export default function HotTakes() {
       
       {/* Parallax Image */}
       <SectionImage 
-        src="/images/aryana-3.png" 
+        src="/images/aryana-3.jpg" 
         alt="Aryana controversial moment" 
         position="right"
         size="w-64 h-80"
