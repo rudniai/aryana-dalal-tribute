@@ -4,24 +4,24 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
 
-// Verified brand collaborations from research
+// Verified brand collaborations from research - using local logos
 const verifiedBrands = {
   beauty: [
     {
       name: "Kérastase",
-      logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/K%C3%A9rastase_logo.svg/2560px-K%C3%A9rastase_logo.svg.png",
+      logo: "/images/brands/kerastase.svg",
       campaign: "Genesis & Gloss Absolu",
       category: "Beauty & Haircare",
     },
     {
       name: "Redken",
-      logo: "https://logos-world.net/wp-content/uploads/2023/02/Redken-Logo.png",
+      logo: "/images/brands/redken.svg",
       campaign: "Acidic Color Gloss",
       category: "Haircare",
     },
     {
       name: "d'you",
-      logo: "https://www.dyou.co/cdn/shop/files/logo_300x300.png",
+      logo: "/images/brands/dyou.svg",
       campaign: "Skincare",
       category: "Beauty",
     },
@@ -29,19 +29,19 @@ const verifiedBrands = {
   fashion: [
     {
       name: "Tata CLiQ Fashion",
-      logo: "https://logos-world.net/wp-content/uploads/2023/08/Tata-Cliq-Logo.png",
+      logo: "/images/brands/tata_cliq.svg",
       campaign: "Cupid Sale 2025",
       category: "Fashion E-commerce",
     },
     {
       name: "H&M",
-      logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/H%26M-Logo.svg/2560px-H%26M-Logo.svg.png",
+      logo: "/images/brands/hm.svg",
       campaign: "Lollapalooza India",
       category: "Fashion",
     },
     {
       name: "ONLY",
-      logo: "https://logos-world.net/wp-content/uploads/2020/12/ONLY-Logo.png",
+      logo: "/images/brands/only_fashion.svg",
       campaign: "Ketnipz Collection",
       category: "Fashion",
     },
@@ -49,49 +49,47 @@ const verifiedBrands = {
   tech: [
     {
       name: "vivo",
-      logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Vivo_logo_2019.svg/2560px-Vivo_logo_2019.svg.png",
+      logo: "/images/brands/vivo.svg",
       campaign: "X300 Series Launch",
       category: "Smartphones",
     },
     {
       name: "Honestly",
-      logo: "https://assets.website-files.com/65f8f7f8f8f8f8f8f8f8f8f8/logo.png",
+      logo: "/images/brands/honestly.svg",
       campaign: "AI Skincare App",
       category: "Tech & Beauty",
-      fallback: true,
     },
   ],
   food: [
     {
       name: "Le15 Patisserie",
-      logo: "https://le15.com/cdn/shop/files/LE15_LOGO_f7f7f7f7.png",
+      logo: "/images/brands/le15_patisserie.svg",
       campaign: "Christmas Menu 2025",
       category: "Food & Desserts",
-      fallback: true,
     },
   ],
 };
 
-// Additional major brands (high probability based on creator type)
+// Additional major brands (high probability based on creator type) - using local logos
 const additionalBrands = [
   {
     name: "Nykaa",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Nykaa_logo.png/2560px-Nykaa_logo.png",
+    logo: "/images/brands/nykaa.svg",
     category: "Beauty E-commerce",
   },
   {
     name: "Myntra",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Myntra_logo.svg/2560px-Myntra_logo.svg.png",
+    logo: "/images/brands/myntra.svg",
     category: "Fashion",
   },
   {
     name: "Swiggy",
-    logo: "https://upload.wikimedia.org/wikipedia/en/thumb/1/12/Swiggy_logo.svg/2560px-Swiggy_logo.svg.png",
+    logo: "/images/brands/swiggy.svg",
     category: "Food Delivery",
   },
   {
     name: "Zomato",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Zomato_logo.png/2560px-Zomato_logo.png",
+    logo: "/images/brands/zomato.svg",
     category: "Food Delivery",
   },
 ];
