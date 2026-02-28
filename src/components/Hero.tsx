@@ -3,146 +3,153 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import Image from "next/image";
+import { Sparkles, Heart } from "lucide-react";
 
 const loveOptions = [
   {
     id: "herself",
     label: "herself",
-    color: "from-peach-400 to-blush-400",
+    emoji: "💁‍♀️",
+    color: "from-hot-pink-400 to-bubblegum-400",
     link: "#about"
   },
   {
     id: "bombay",
     label: "Bombay",
-    color: "from-terracotta-400 to-peach-400",
+    emoji: "🌆",
+    color: "from-lavender-400 to-hot-pink-400",
     link: "#bombay-content"
   },
   {
     id: "eating",
     label: "eating",
-    color: "from-blush-400 to-peach-500",
+    emoji: "🍕",
+    color: "from-bubblegum-400 to-lavender-400",
     link: "#food-content"
   },
   {
     id: "yapping",
     label: "yapping",
-    color: "from-peach-500 to-terracotta-400",
+    emoji: "💬",
+    color: "from-lavender-400 to-sky-400",
     link: "#podcast-content"
   },
-];
-
-// Collage images - using various Aryana photos
-const collageImages = [
-  { src: "/images/aryana-1.jpg", size: "large", position: "top-left" },
-  { src: "/images/aryana-2.jpg", size: "medium", position: "top-right" },
-  { src: "/images/aryana-3.jpg", size: "small", position: "middle-left" },
-  { src: "/images/aryana-4.jpg", size: "medium", position: "middle-right" },
-  { src: "/images/aryana-5.jpg", size: "large", position: "bottom-left" },
-  { src: "/images/aryana-6.jpg", size: "small", position: "bottom-right" },
 ];
 
 export default function Hero() {
   const [activeOption, setActiveOption] = useState<string | null>(null);
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-b from-cream-50 via-white to-cream-50">
-      {/* Subtle background accents */}
-      <div className="absolute top-20 right-10 w-64 h-64 bg-peach-100 rounded-full blur-3xl opacity-40" />
-      <div className="absolute bottom-20 left-10 w-96 h-96 bg-blush-100 rounded-full blur-3xl opacity-30" />
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-bubblegum-50 via-lavender-50 to-sky-50">
+      {/* FUN BACKGROUND BLOBS */}
+      <div className="absolute top-10 right-10 w-80 h-80 bg-hot-pink-200 rounded-full blur-3xl opacity-40 animate-bounce-fun" />
+      <div className="absolute bottom-10 left-10 w-96 h-96 bg-lavender-200 rounded-full blur-3xl opacity-40 animate-float-gentle" style={{ animationDelay: "1s" }} />
+      <div className="absolute top-1/2 left-1/2 w-72 h-72 bg-sky-200 rounded-full blur-3xl opacity-30 animate-float-gentle" style={{ animationDelay: "2s" }} />
+
+      {/* SPARKLES */}
+      <div className="absolute top-20 left-20 text-6xl animate-wiggle opacity-70">✨</div>
+      <div className="absolute top-40 right-40 text-5xl animate-bounce-fun opacity-70" style={{ animationDelay: "0.5s" }}>💖</div>
+      <div className="absolute bottom-32 right-20 text-6xl animate-wiggle opacity-70" style={{ animationDelay: "1s" }}>🌟</div>
+      <div className="absolute bottom-20 left-1/4 text-5xl animate-float-gentle opacity-70">💕</div>
 
       <div className="max-w-7xl mx-auto px-6 py-20 w-full relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left side - Image collage */}
+          {/* LEFT: Fun image collage */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.8, type: "spring" }}
             className="relative"
           >
-            {/* Main collage container */}
             <div className="relative w-full aspect-square max-w-lg mx-auto">
-              {/* Scattered photo layout */}
+              {/* Main featured image with sticker effect */}
               <motion.div
-                initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-                animate={{ opacity: 1, scale: 1, rotate: -3 }}
-                transition={{ delay: 0.2 }}
-                className="absolute top-0 left-0 w-48 h-56 rounded-2xl overflow-hidden shadow-xl shadow-peach-200/40 z-10"
+                initial={{ opacity: 0, scale: 0, rotate: -10 }}
+                animate={{ opacity: 1, scale: 1, rotate: -5 }}
+                transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                className="absolute top-0 left-0 w-56 h-64 rounded-[40px] overflow-hidden shadow-2xl shadow-hot-pink-300/50 border-4 border-white z-20"
               >
                 <Image src="/images/aryana-1.jpg" alt="Aryana" fill className="object-cover" />
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0, scale: 0.8, rotate: 5 }}
-                animate={{ opacity: 1, scale: 1, rotate: 4 }}
-                transition={{ delay: 0.3 }}
-                className="absolute top-12 right-0 w-40 h-48 rounded-2xl overflow-hidden shadow-xl shadow-blush-200/40 z-20"
+                initial={{ opacity: 0, scale: 0, rotate: 10 }}
+                animate={{ opacity: 1, scale: 1, rotate: 6 }}
+                transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
+                className="absolute top-16 right-0 w-48 h-56 rounded-[40px] overflow-hidden shadow-2xl shadow-lavender-300/50 border-4 border-white z-30"
               >
                 <Image src="/images/aryana-2.jpg" alt="Aryana" fill className="object-cover" />
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0, scale: 0.8, rotate: -3 }}
-                animate={{ opacity: 1, scale: 1, rotate: -2 }}
-                transition={{ delay: 0.4 }}
-                className="absolute bottom-24 left-8 w-44 h-52 rounded-2xl overflow-hidden shadow-xl shadow-peach-200/40 z-15"
+                initial={{ opacity: 0, scale: 0, rotate: -8 }}
+                animate={{ opacity: 1, scale: 1, rotate: -3 }}
+                transition={{ delay: 0.4, type: "spring", stiffness: 200 }}
+                className="absolute bottom-20 left-8 w-52 h-60 rounded-[40px] overflow-hidden shadow-2xl shadow-bubblegum-300/50 border-4 border-white z-25"
               >
                 <Image src="/images/aryana-3.jpg" alt="Aryana" fill className="object-cover" />
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0, scale: 0.8, rotate: 6 }}
-                animate={{ opacity: 1, scale: 1, rotate: 5 }}
-                transition={{ delay: 0.5 }}
-                className="absolute bottom-0 right-8 w-48 h-60 rounded-2xl overflow-hidden shadow-xl shadow-terracotta-200/40 z-25"
+                initial={{ opacity: 0, scale: 0, rotate: 8 }}
+                animate={{ opacity: 1, scale: 1, rotate: 4 }}
+                transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
+                className="absolute bottom-0 right-12 w-56 h-64 rounded-[40px] overflow-hidden shadow-2xl shadow-sky-300/50 border-4 border-white z-35"
               >
                 <Image src="/images/aryana-4.jpg" alt="Aryana" fill className="object-cover" />
               </motion.div>
 
+              {/* Center highlight photo */}
               <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
+                initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.6 }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 h-44 rounded-2xl overflow-hidden shadow-xl shadow-blush-200/40 z-30 border-4 border-white"
+                transition={{ delay: 0.6, type: "spring", stiffness: 200 }}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-48 rounded-[40px] overflow-hidden shadow-2xl shadow-hot-pink-400/60 border-[5px] border-white z-40"
               >
                 <Image src="/images/aryana-5.jpg" alt="Aryana" fill className="object-cover" />
+                <div className="absolute top-2 right-2 text-3xl animate-bounce-fun">⭐</div>
               </motion.div>
             </div>
           </motion.div>
 
-          {/* Right side - Interactive text */}
+          {/* RIGHT: Fun interactive text */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            transition={{ duration: 0.8, delay: 0.3, type: "spring" }}
             className="space-y-8"
           >
             <div>
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-                className="text-headline text-6xl sm:text-7xl lg:text-8xl font-bold text-soft-brown-500 mb-4"
+                transition={{ delay: 0.5, type: "spring" }}
+                className="text-bubbly text-7xl sm:text-8xl lg:text-9xl font-black mb-4 leading-none"
               >
-                Aryana Dalal
+                <span className="gradient-fun neon-glow">Aryana</span>
+                <br />
+                <span className="gradient-girly">Dalal</span>
               </motion.h1>
-              <motion.p
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
-                className="text-script text-3xl text-terracotta-400"
+                className="flex items-center gap-3 flex-wrap"
               >
-                Content Creator • Bombay
-              </motion.p>
+                <span className="text-handwritten text-4xl text-hot-pink-500">Content Creator</span>
+                <span className="text-5xl">•</span>
+                <span className="text-handwritten text-4xl text-lavender-500">Bombay</span>
+              </motion.div>
             </div>
 
-            {/* Interactive "She loves..." section */}
+            {/* FUN "She loves..." BUBBLES */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7 }}
               className="space-y-4"
             >
-              <p className="font-serif text-2xl text-soft-brown-500">
+              <p className="text-bubbly text-3xl text-gray-700">
                 She loves...
               </p>
               <div className="flex flex-wrap gap-3">
@@ -150,49 +157,49 @@ export default function Hero() {
                   <motion.a
                     key={option.id}
                     href={option.link}
-                    initial={{ opacity: 0, scale: 0.8 }}
+                    initial={{ opacity: 0, scale: 0 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.8 + i * 0.1 }}
+                    transition={{ delay: 0.8 + i * 0.1, type: "spring", stiffness: 200 }}
                     onMouseEnter={() => setActiveOption(option.id)}
                     onMouseLeave={() => setActiveOption(null)}
-                    className={`group relative px-6 py-3 rounded-full font-semibold text-lg transition-all duration-300 hover:scale-110 hover:shadow-xl ${
+                    whileHover={{ scale: 1.15, rotate: 5 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`relative px-6 py-3 rounded-full font-bold text-lg transition-all duration-300 border-4 ${
                       activeOption === option.id
-                        ? `bg-gradient-to-r ${option.color} text-white shadow-lg`
-                        : 'bg-white border-2 border-cream-200 text-soft-brown-500 hover:border-peach-300'
+                        ? `bg-gradient-to-r ${option.color} text-white border-white shadow-2xl shadow-hot-pink-300/50`
+                        : 'bg-white border-hot-pink-300 text-gray-700 shadow-lg'
                     }`}
                   >
+                    <span className="mr-2 text-2xl">{option.emoji}</span>
                     {option.label}
-                    {activeOption === option.id && (
-                      <motion.div
-                        layoutId="activeIndicator"
-                        className={`absolute inset-0 bg-gradient-to-r ${option.color} rounded-full -z-10`}
-                        transition={{ type: "spring", duration: 0.5 }}
-                      />
-                    )}
                   </motion.a>
                 ))}
               </div>
             </motion.div>
 
-            {/* Stats */}
+            {/* STATS - FUN VERSION */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1 }}
               className="flex flex-wrap gap-6 pt-4"
             >
-              <div>
-                <div className="text-3xl font-serif font-semibold gradient-text-soft">8.9K+</div>
-                <div className="text-sm text-soft-brown-400">YouTube</div>
-              </div>
-              <div>
-                <div className="text-3xl font-serif font-semibold gradient-text-soft">11+</div>
-                <div className="text-sm text-soft-brown-400">Brands</div>
-              </div>
-              <div>
-                <div className="text-3xl font-serif font-semibold gradient-text-soft">2</div>
-                <div className="text-sm text-soft-brown-400">Shows</div>
-              </div>
+              {[
+                { value: "8.9K+", label: "YouTube", emoji: "📺" },
+                { value: "11+", label: "Brands", emoji: "💼" },
+                { value: "2", label: "Shows", emoji: "🎬" },
+              ].map((stat, i) => (
+                <motion.div
+                  key={stat.label}
+                  whileHover={{ scale: 1.1, rotate: -2 }}
+                  className="bg-white rounded-3xl px-6 py-4 border-4 border-hot-pink-200 shadow-lg hover:shadow-xl transition-all"
+                >
+                  <div className="text-3xl font-black gradient-fun">{stat.value}</div>
+                  <div className="text-sm text-gray-600 font-semibold flex items-center gap-1">
+                    <span>{stat.emoji}</span> {stat.label}
+                  </div>
+                </motion.div>
+              ))}
             </motion.div>
           </motion.div>
         </div>
