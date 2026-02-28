@@ -2,8 +2,15 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
-import { Heart, Send, Sparkles, RefreshCw } from 'lucide-react'
+import { Heart, Send, Sparkles, RefreshCw, AlertCircle } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
+import { 
+  moderateMessage, 
+  checkRateLimit, 
+  updateSubmitTimestamp, 
+  isDuplicate, 
+  saveToRecent 
+} from '@/lib/moderation'
 
 interface KindnessMessage {
   id: string
@@ -27,6 +34,7 @@ export default function PublicNotes() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   // Load messages on mount
   useEffect(() => {
@@ -59,6 +67,29 @@ export default function PublicNotes() {
     e.preventDefault()
     if (!newMessage.trim() || isSubmitting) return
 
+    // Clear any previous errors
+    setErrorMessage(null)
+
+    // Check rate limit
+    const rateLimitCheck = checkRateLimit()
+    if (!rateLimitCheck.allowed) {
+      setErrorMessage(`Please wait ${rateLimitCheck.waitTime} seconds before submitting again.`)
+      return
+    }
+
+    // Check for duplicate
+    if (isDuplicate(newMessage)) {
+      setErrorMessage('This message was already submitted recently. Try writing something new!')
+      return
+    }
+
+    // Moderate content
+    const moderationResult = moderateMessage(newMessage)
+    if (!moderationResult.isAllowed) {
+      setErrorMessage(moderationResult.reason || 'This message cannot be posted.')
+      return
+    }
+
     setIsSubmitting(true)
 
     try {
@@ -73,6 +104,12 @@ export default function PublicNotes() {
 
       if (error) throw error
 
+      // Save to recent messages for duplicate checking
+      saveToRecent(newMessage)
+      
+      // Update rate limit timestamp
+      updateSubmitTimestamp()
+
       setNewMessage('')
       setShowSuccess(true)
       
@@ -83,7 +120,7 @@ export default function PublicNotes() {
       await loadMessages()
     } catch (error) {
       console.error('Error submitting message:', error)
-      alert('Oops! Something went wrong. Please try again.')
+      setErrorMessage('Oops! Something went wrong. Please try again.')
     } finally {
       setIsSubmitting(false)
     }
@@ -186,7 +223,11 @@ export default function PublicNotes() {
               <div>
                 <textarea
                   value={newMessage}
-                  onChange={(e) => setNewMessage(e.target.value)}
+                  onChange={(e) => {
+                    setNewMessage(e.target.value)
+                    // Clear error when user starts typing
+                    if (errorMessage) setErrorMessage(null)
+                  }}
                   placeholder="Write something uplifting... ✨"
                   maxLength={280}
                   rows={4}
@@ -240,6 +281,23 @@ export default function PublicNotes() {
                   <p className="text-peach-600 font-medium text-center flex items-center justify-center gap-2">
                     <Heart className="w-5 h-5" fill="currentColor" />
                     Your kindness has been shared! Thank you for spreading joy
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Error Message */}
+            <AnimatePresence>
+              {errorMessage && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="mt-6 p-4 bg-red-50 border-2 border-red-200 rounded-2xl"
+                >
+                  <p className="text-red-600 font-medium text-center flex items-center justify-center gap-2">
+                    <AlertCircle className="w-5 h-5" />
+                    {errorMessage}
                   </p>
                 </motion.div>
               )}
