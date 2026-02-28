@@ -16,6 +16,7 @@ const playlists = [
     description:
       "Pure chaos energy. Friend trips, spontaneous adventures, and the kind of unhinged content that makes you feel like you're right there with the gang.",
     vibes: ["chaotic energy", "friend group goals", "main character vibes"],
+    link: "https://www.youtube.com/@AryanaDalal/playlists",
   },
   {
     title: "Taste Tests",
@@ -27,6 +28,7 @@ const playlists = [
     description:
       "Aryana's true calling. She rates, roasts, and reviews food with the kind of honesty that Delhi vs Mumbai debates are made of. Controversial? Always.",
     vibes: ["brutally honest", "foodie approved", "no cap reviews"],
+    link: "https://www.youtube.com/@AryanaDalal/videos",
   },
   {
     title: "HST BTS",
@@ -38,6 +40,7 @@ const playlists = [
     description:
       "What actually goes on behind the scenes at The Having Said That Show. Spoiler: it's even more chaotic than the episodes themselves.",
     vibes: ["crew shenanigans", "podcast life", "unscripted moments"],
+    link: "https://www.youtube.com/@AryanaDalal/playlists",
   },
 ];
 
@@ -114,21 +117,24 @@ export default function YouTube() {
         {/* Playlist cards */}
         <div className="grid md:grid-cols-3 gap-6 mb-20">
           {playlists.map((playlist, i) => (
-            <motion.div
+            <motion.a
               key={playlist.title}
+              href={playlist.link}
+              target="_blank"
+              rel="noopener noreferrer"
               initial={{ opacity: 0, y: 40 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.2 + i * 0.15 }}
-              className={`card-hover rounded-3xl p-8 ${playlist.bgLight} border ${playlist.borderColor} relative overflow-hidden`}
+              className={`block card-hover rounded-3xl p-8 ${playlist.bgLight} border ${playlist.borderColor} relative overflow-hidden group cursor-pointer`}
             >
-              <div className="text-5xl mb-4">{playlist.emoji}</div>
-              <h3 className="font-[family-name:var(--font-space-grotesk)] text-2xl font-bold mb-3">
+              <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">{playlist.emoji}</div>
+              <h3 className="font-[family-name:var(--font-space-grotesk)] text-2xl font-bold mb-3 group-hover:text-pink-hot transition-colors">
                 {playlist.title}
               </h3>
               <p className="text-gray-600 text-sm leading-relaxed mb-6">
                 {playlist.description}
               </p>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2 mb-4">
                 {playlist.vibes.map((vibe) => (
                   <span
                     key={vibe}
@@ -138,11 +144,16 @@ export default function YouTube() {
                   </span>
                 ))}
               </div>
+              {/* Watch link indicator */}
+              <div className="flex items-center gap-2 text-sm font-medium text-pink-hot opacity-0 group-hover:opacity-100 transition-opacity">
+                <span>Watch Playlist</span>
+                <ExternalLink size={14} />
+              </div>
               {/* Gradient accent */}
               <div
                 className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-br ${playlist.color} opacity-10 rounded-bl-[60px]`}
               />
-            </motion.div>
+            </motion.a>
           ))}
         </div>
 
