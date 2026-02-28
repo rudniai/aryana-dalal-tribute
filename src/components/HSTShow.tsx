@@ -32,7 +32,7 @@ const crewMembers = [
     name: "Aman",
     fullName: "Aman",
     role: "Crew",
-    detail: "Film mastermind behind massive productions & creative studio owner",
+    detail: "Worked on massive productions & talented creative production studio owner",
     emoji: "🎬",
   },
   {
