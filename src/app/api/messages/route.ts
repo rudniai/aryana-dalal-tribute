@@ -6,7 +6,7 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY! // Server-side only, bypasses RLS
 )
 
-// ─── OpenAI Moderation Check ────────────────────────────────
+// ─── OpenAI Moderation Check (free endpoint) ────────────────
 async function checkOpenAIModeration(message: string): Promise<{
   flagged: boolean
   categories: string[]
@@ -48,6 +48,82 @@ async function checkOpenAIModeration(message: string): Promise<{
   } catch (error) {
     console.error('OpenAI moderation error:', error)
     return { flagged: false, categories: [] }
+  }
+}
+
+// ─── LLM Kindness Check (catches ALL languages including Devanagari) ──
+async function checkWithLLM(message: string): Promise<{
+  flagged: boolean
+  reason: string
+}> {
+  const apiKey = process.env.OPENAI_API_KEY
+  if (!apiKey) return { flagged: false, reason: '' }
+
+  try {
+    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o-mini',
+        messages: [
+          {
+            role: 'system',
+            content: `You are a content moderator for a "Wall of Kindness" — a public message board meant ONLY for uplifting, positive, kind messages.
+
+Your job: Determine if a message is appropriate for this wall.
+
+BLOCK messages that contain:
+- Profanity, slurs, or insults in ANY language (English, Hindi, Hinglish, Devanagari, Urdu, etc.)
+- Threats, violence, or harassment
+- Sexual content or innuendo
+- Negativity, sarcasm, or mean-spirited comments
+- Spam, links, or self-promotion
+- Gibberish or meaningless text
+
+ALLOW messages that are:
+- Genuinely kind, uplifting, or encouraging
+- Compliments or positive affirmations
+- Wholesome and appropriate for all ages
+
+Respond with ONLY valid JSON: {"allowed": true} or {"allowed": false, "reason": "brief reason"}`
+          },
+          {
+            role: 'user',
+            content: message
+          }
+        ],
+        temperature: 0,
+        max_tokens: 50,
+      }),
+    })
+
+    if (!res.ok) {
+      console.error('LLM moderation error:', res.status)
+      return { flagged: false, reason: '' }
+    }
+
+    const data = await res.json()
+    const content = data.choices?.[0]?.message?.content?.trim() || ''
+    
+    try {
+      const result = JSON.parse(content)
+      if (result.allowed === false) {
+        return { flagged: true, reason: result.reason || 'Not appropriate for kindness wall' }
+      }
+    } catch {
+      // If JSON parsing fails, check if response contains "false"
+      if (content.toLowerCase().includes('"allowed": false') || content.toLowerCase().includes('"allowed":false')) {
+        return { flagged: true, reason: 'Not appropriate for kindness wall' }
+      }
+    }
+
+    return { flagged: false, reason: '' }
+  } catch (error) {
+    console.error('LLM moderation error:', error)
+    return { flagged: false, reason: '' }
   }
 }
 
@@ -123,17 +199,27 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Layer 2: OpenAI Moderation API (multilingual, catches Hindi/Hinglish)
+    // Layer 2: OpenAI Moderation API (free, catches obvious stuff)
     const moderation = await checkOpenAIModeration(trimmed)
     if (moderation.flagged) {
-      console.log(`Message blocked by AI: "${trimmed}" [${moderation.categories.join(', ')}]`)
+      console.log(`Message blocked by moderation API: "${trimmed}" [${moderation.categories.join(', ')}]`)
       return NextResponse.json(
         { error: "Let's keep this space positive! Try writing something uplifting instead. ✨" },
         { status: 400 }
       )
     }
 
-    // All checks passed — insert into DB
+    // Layer 3: LLM Kindness Check (understands ALL languages, context, intent)
+    const llmCheck = await checkWithLLM(trimmed)
+    if (llmCheck.flagged) {
+      console.log(`Message blocked by LLM: "${trimmed}" [${llmCheck.reason}]`)
+      return NextResponse.json(
+        { error: "This doesn't feel like a kind message. Try spreading some love instead! 💖" },
+        { status: 400 }
+      )
+    }
+
+    // All 3 layers passed — insert into DB
     const { data, error } = await supabase
       .from('kindness_messages')
       .insert({ message: trimmed, approved: true })
